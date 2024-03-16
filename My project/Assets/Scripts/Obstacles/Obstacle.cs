@@ -39,7 +39,11 @@ public class Obstacle : MonoBehaviour
     private void OnDestroy()
     {
         //Notify gamemanager 
-        GameManager.instance.addScore(score);
+        if(GameManager.instance != null)
+        {
+            Debug.Log("Score:" + this.score);
+            GameManager.instance.addScore(score);
+        }
     }
 
     // se llama cuando el objeto se sale de la camara
