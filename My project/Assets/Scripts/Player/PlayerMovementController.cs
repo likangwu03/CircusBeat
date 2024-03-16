@@ -8,6 +8,8 @@ public class PlayerMovementController : MonoBehaviour
 
     [SerializeField]
     private float[] positions;
+    
+    private PlayerAnimations pAnimations;
 
     private int lane = 2;
 
@@ -22,6 +24,7 @@ public class PlayerMovementController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pAnimations = gameObject.GetComponent<PlayerAnimations>();
         trans = transform;
     }
 
@@ -29,10 +32,18 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-            if(Lane < 4) Lane++;
+            if (Lane < 4)
+            {
+                pAnimations.dashDr();
+                Lane++;      
+            }
         }
         if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-            if(Lane > 0) Lane--;
+            if (Lane > 0)
+            {
+                pAnimations.dashIz();
+                Lane--;
+            }
         }
     }
 }
