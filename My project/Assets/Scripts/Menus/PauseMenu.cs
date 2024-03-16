@@ -28,6 +28,7 @@ public class PauseMenu : MonoBehaviour
         _pauseMenu.SetActive(false);
         _countdown.SetActive(true);
         exiting = true;
+        Time.timeScale = 1;
 
         // + 1 porque el contador muestra su valor truncado,
         // y nada mas comienza la cuenta atras, _countdownTime
