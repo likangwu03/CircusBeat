@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 22351e1559c8e2f41ab964f844d9587c
+guid: d933d978abe1a0a42bce796da9c655a5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BowlingPins 1_0
+      name: Hue_Saturation_4_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 579
-        height: 1459
+        width: 410
+        height: 1038
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8c816bf2ffc941429700917b9dbfe68
-      internalID: -1413587665
+      spriteID: 9f28386aaacd05b458af92782c4f5834
+      internalID: 109892428
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BowlingPins 1_1
+      name: Hue_Saturation_4_1
       rect:
         serializedVersion: 2
-        x: 579
+        x: 410
         y: 0
-        width: 579
-        height: 1459
+        width: 410
+        height: 1038
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4eea5326349df0242bf1e9b0b54decc6
-      internalID: 998131934
+      spriteID: 87e6ca592be97e14e834590dfea21698
+      internalID: -1655684909
       vertices: []
       indices: 
       edges: []
@@ -162,8 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BowlingPins 1_0: -1413587665
-      BowlingPins 1_1: 998131934
+      Hue_Saturation_4_0: 109892428
+      Hue_Saturation_4_1: -1655684909
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
