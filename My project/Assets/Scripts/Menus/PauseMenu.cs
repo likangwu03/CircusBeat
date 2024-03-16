@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
         exiting = false;
         _pauseMenu.SetActive(true);
         _countdown.SetActive(false);
+        // no pasa el tiempo (es como si estuviera en pausa)
         Time.timeScale = 0;
     }
     public void quitPause()
@@ -38,7 +39,7 @@ public class PauseMenu : MonoBehaviour
 
     private void setPause()
     {
-        if (_pauseMenu.active) quitPause();
+        if (_pauseMenu.activeSelf) quitPause();
         else enterPause();
     }
 
