@@ -13,6 +13,10 @@ public class Obstacle : MonoBehaviour
     [SerializeField]
     private int score = 1;
 
+    private PlayerLifeComponent pLifeComponent;
+
+    private bool col = false;
+
     public Vector3 targetPos { private get; set; }
 
     private void Start()
@@ -37,9 +41,9 @@ public class Obstacle : MonoBehaviour
     private void OnDestroy()
     {
         //Notify gamemanager 
-        if(GameManager.instance != null)
+        if(GameManager.instance != null && !col)
         {
-            Debug.Log("Score:" + this.score);
+            //Debug.Log("Score:" + this.score);
             GameManager.instance.addScore(score);
         }
     }
@@ -48,5 +52,17 @@ public class Obstacle : MonoBehaviour
     private void OnBecameInvisible()
     {
         Destroy(this.gameObject);
+    }
+
+    //Upon collision with another GameObject, this GameObject will reverse direction
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerMovementController>() != null)
+        {
+            col = true;
+            GameManager.instance.addScore(-score);
+            GameManager.instance.pLC.damage();
+            Destroy(gameObject);
+        }
     }
 }

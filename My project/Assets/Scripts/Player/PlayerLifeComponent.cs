@@ -33,6 +33,8 @@ public class PlayerLifeComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hpBar = GameObject.Find("HP_Bar").GetComponent<HpBar>();
+
         currentLife = maxLife;
 
         hpBar.SetMaxHealth(maxLife);
@@ -42,12 +44,6 @@ public class PlayerLifeComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D)){
-            damage();
-        }
-        else if (Input.GetKeyDown(KeyCode.H))
-        {
-            heal();
-        }
+       
     }
 }
