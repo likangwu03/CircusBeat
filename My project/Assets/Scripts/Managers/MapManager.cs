@@ -46,7 +46,10 @@ public class ColumnInfo
 
 public class MapManager : MonoBehaviour
 {
-    List<int>[] garbage;
+    [SerializeField]
+    private AudioSource _music;
+
+   List<int>[] garbage;
 
     private float timeSinceMusic;
 
@@ -57,7 +60,7 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         timeSinceMusic = 0.0f;
-
+        _music.Play();
         // se reserva la memoria
         garbage = new List<int>[columns.Length];
         for (int i = 0; i < columns.Length; ++i)
@@ -70,7 +73,8 @@ public class MapManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        timeSinceMusic += Time.deltaTime;
+        //timeSinceMusic += Time.deltaTime;
+        timeSinceMusic = _music.time;
 
         for (int i = 0; i < columns.Length; ++i)
         {
