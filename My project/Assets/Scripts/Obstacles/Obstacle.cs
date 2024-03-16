@@ -9,8 +9,6 @@ public class Obstacle : MonoBehaviour
     private Transform trans;
 
     [SerializeField]
-    private GameObject target;
-    [SerializeField]
     private float speed = 3.5f;
     [SerializeField]
     private int score = 1;
@@ -26,7 +24,7 @@ public class Obstacle : MonoBehaviour
     {
         // Move our position a step closer to the target.
         var step = speed * Time.deltaTime; // calculate distance to move
-        trans.position = Vector3.MoveTowards(trans.position, target.transform.position, step);
+        trans.position = Vector3.MoveTowards(trans.position, targetPos, step);
 
         // Check if the position of the cube and sphere are approximately equal.
         //if (Vector3.Distance(trans.position, target.transform.position) < DEATH_THRESHOLD)
