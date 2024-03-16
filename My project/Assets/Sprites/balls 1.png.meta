@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 96fc377430d83c2429e989236ae2be19
+guid: 9f5601377701a4444a2278201b3f6386
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: balls_0
+      name: balls 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 1560
-        height: 1560
+        height: 1716
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ff653637c1379542a5584946f93970f
-      internalID: 2141264983
+      spriteID: 6b3f0a9ab711e7a448626dddabc9741b
+      internalID: 66571259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: balls_1
+      name: balls 1_1
       rect:
         serializedVersion: 2
         x: 1560
-        y: 0
+        y: 40
         width: 1560
-        height: 1560
+        height: 1676
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62e6442d819eec845929c29af4541484
-      internalID: 91314464
+      spriteID: fa930c3cbfd245442af2ff76182ba977
+      internalID: 24070611
       vertices: []
       indices: 
       edges: []
@@ -162,8 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      balls_0: 2141264983
-      balls_1: 91314464
+      balls 1_0: 66571259
+      balls 1_1: 24070611
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
