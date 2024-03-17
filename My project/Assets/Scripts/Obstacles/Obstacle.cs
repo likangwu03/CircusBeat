@@ -13,10 +13,6 @@ public class Obstacle : MonoBehaviour
     [SerializeField]
     private int score = 1;
 
-    private PlayerLifeComponent pLifeComponent;
-
-    private bool col = false;
-
     public Vector3 targetPos { private get; set; }
 
     private void Start()
@@ -29,28 +25,22 @@ public class Obstacle : MonoBehaviour
         // Move our position a step closer to the target.
         var step = speed * Time.deltaTime; // calculate distance to move
         trans.position = Vector3.MoveTowards(trans.position, targetPos, step);
-
-        // Check if the position of the cube and sphere are approximately equal.
-        //if (Vector3.Distance(trans.position, target.transform.position) < DEATH_THRESHOLD)
-        //{
-        //    // Destroy the gameobject
-        //    Destroy(this.gameObject);
-        //}
     }
 
-    private void OnDestroy()
-    {
-        //Notify gamemanager 
-        if(GameManager.instance != null && !col)
-        {
-            //Debug.Log("Score:" + this.score);
-            GameManager.instance.addScore(score);
-        }
-    }
+    //private void OnDestroy()
+    //{
+    //    //Notify gamemanager 
+    //    if (GameManager.instance != null && !col)
+    //    {
+    //        //Debug.Log("Score:" + this.score);
+    //        GameManager.instance.addScore(score);
+    //    }
+    //}
 
     // se llama cuando el objeto se sale de la camara
     private void OnBecameInvisible()
     {
+        GameManager.instance.addScore(score);
         Destroy(this.gameObject);
     }
 
@@ -59,7 +49,6 @@ public class Obstacle : MonoBehaviour
     {
         if (other.GetComponent<PlayerMovementController>() != null)
         {
-            col = true;
             GameManager.instance.setScore(0);
             GameManager.instance.pLC.damage();
             Destroy(gameObject);

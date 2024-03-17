@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,8 +17,10 @@ public class GameManager : MonoBehaviour
     GameObject ComboNumber;
     private TMP_Text ComboNumberText;
 
-    int score = 0;
-    private bool streak = false;
+    [SerializeField]
+    private int streak = 10;
+    private int score = 0;
+    //private bool isStreak = false;
 
     // Primero en llamrase
     private void Awake()
@@ -51,10 +54,9 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.Find("Player");
-        if (scene.name == "InGame 1")
-        {
-            pLC = player.GetComponent<PlayerLifeComponent>();
-        }
+        // no hace falta el if
+        // si no lo encuentra, es null y no se usa
+        pLC = player.GetComponent<PlayerLifeComponent>();
     }
 
     // Se llama cuando el objeto se desactiva
@@ -65,29 +67,33 @@ public class GameManager : MonoBehaviour
 
     private void streakHeal()
     {
-        if (this.score > 10 && streak)
+        //if (this.score > streak && isStreak)
+        if (this.score % streak == 0 && this.score != 0)
         {
             pLC.heal();
-            streak = false;
+            //isStreak = false;
         }
     }
 
     public void addScore(int score)
     {
         this.score += score;
-        if (this.score % 10 == 0) streak = true;
+        //if (this.score % streak == 0)
+        //{
+        //    isStreak = true;
+        //}
         streakHeal();
         UpdateScore();
-        //Debug.Log("Score:" + this.score);
     }
 
     public void setScore(int score)
     {
-        if (score == 0)
-            streak = false;
+        //if (score == 0)
+        //{
+        //    isStreak = false;
+        //}
         this.score = score;
         UpdateScore();
-        //Debug.Log("Score:" + this.score);
     }
 
     public void UpdateScore()
