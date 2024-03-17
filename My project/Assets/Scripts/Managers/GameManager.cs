@@ -161,6 +161,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("GameOver");
     }
+    public void startWin()
+    {
+        SceneManager.LoadScene("Win");
+    }
     public void quit()
     {
         Application.Quit();
@@ -216,6 +220,10 @@ public class GameManager : MonoBehaviour
         //{
         //    isStreak = false;
         //}
+        if(combo == 0)
+        {
+            comboAnimator.SetTrigger("Hit");
+        }
         this.combo = combo;
         updateComboText();
     }
