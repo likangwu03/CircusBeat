@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerLifeComponent : MonoBehaviour
 {
@@ -14,16 +16,17 @@ public class PlayerLifeComponent : MonoBehaviour
     [SerializeField]
     Sprite deathSprite;
     [SerializeField]
-    private HpBar hpBar;
+    private GameObject obj;
+    private TMP_Text text;
     #endregion
 
     #region methods
     public void damage() {
         if (currentLife > 0)
             currentLife -= 1;
-        hpBar.SetHealth(currentLife);
+        text.text = currentLife.ToString();
 
-        if(currentLife <= 0)
+        if (currentLife <= 0)
         {
             gameObject.GetComponent<Animator>().enabled = false;
             gameObject.GetComponent<PlayerMovementController>().enabled = false;
@@ -39,7 +42,7 @@ public class PlayerLifeComponent : MonoBehaviour
     public void heal() { 
         if(currentLife < maxLife)
             currentLife += 1;
-        hpBar.SetHealth(currentLife);
+        text.text = currentLife.ToString();
     }
     public void restart() { currentLife = 3; }
     #endregion
@@ -47,11 +50,11 @@ public class PlayerLifeComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hpBar = GameObject.Find("HP_Bar").GetComponent<HpBar>();
+        text = obj.GetComponent<TMP_Text>();
 
         currentLife = maxLife;
 
-        hpBar.SetMaxHealth(maxLife);
-        hpBar.SetHealth(currentLife);
+        text.text=maxLife.ToString();
+      
     }
 }
