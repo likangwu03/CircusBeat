@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     private TMP_Text comboNumberText;
+    private TMP_Text scoreNumberText;
     private GameObject comboGO;
     private Animator comboAnimator;
 
@@ -66,6 +67,11 @@ public class GameManager : MonoBehaviour
         if (comboNumber != null)
         {
             comboNumberText = comboNumber.GetComponent<TMP_Text>();
+        }
+        GameObject scoreNumber = GameObject.Find("ScoreNumberText");
+        if (comboNumber != null)
+        {
+            scoreNumberText = scoreNumber.GetComponent<TMP_Text>();
         }
         GameObject comboImage = GameObject.Find("Image");
         if(comboImage != null)
@@ -180,7 +186,8 @@ public class GameManager : MonoBehaviour
 
     public void addScore(int score)
     {
-        this.score += score;
+        this.score += score * ((combo / 10) + 1);
+        updateScoreText();
     }
 
     // COMBO
@@ -228,5 +235,10 @@ public class GameManager : MonoBehaviour
             comboAnimator.SetInteger("Combo", combo);
             comboNumberText.text = combo.ToString();            
         }
+    }
+    
+    public void updateScoreText()
+    {
+        scoreNumberText.text = score.ToString();            
     }
 }
