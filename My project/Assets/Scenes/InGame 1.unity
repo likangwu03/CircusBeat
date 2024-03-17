@@ -2011,6 +2011,24 @@ MonoBehaviour:
       timeInSeconds: 46.5
     - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
       timeInSeconds: 55.3
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 39.45
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 39.85
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 40.25
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 40.65
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 40.85
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 41.25
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 45.7
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 52.57
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 57.6
   - pointUp: {fileID: 195482941}
     pointDown: {fileID: 142433099}
     obstacles:
@@ -2056,6 +2074,24 @@ MonoBehaviour:
       timeInSeconds: 69.4
     - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
       timeInSeconds: 79.1
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 43.8
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 48.4
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 54.2
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 55.7
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 60.08
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 60.48
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 60.88
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 61.28
+    - gameobject: {fileID: 3794580389325219645, guid: a79f6ce8e04455746b4ebee3f10a9cc6, type: 3}
+      timeInSeconds: 41.18
   - pointUp: {fileID: 156414508}
     pointDown: {fileID: 733285595}
     obstacles:
@@ -2095,6 +2131,18 @@ MonoBehaviour:
       timeInSeconds: 74.3
     - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
       timeInSeconds: 79.4
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 46.67
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 58.5
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 61.68
+    - gameobject: {fileID: 3794580389325219645, guid: a79f6ce8e04455746b4ebee3f10a9cc6, type: 3}
+      timeInSeconds: 39.46
+    - gameobject: {fileID: 3794580389325219645, guid: a79f6ce8e04455746b4ebee3f10a9cc6, type: 3}
+      timeInSeconds: 41.614
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 61.88
   - pointUp: {fileID: 1796672262}
     pointDown: {fileID: 1137868354}
     obstacles:
@@ -2136,6 +2184,22 @@ MonoBehaviour:
       timeInSeconds: 71.6
     - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
       timeInSeconds: 78.3
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 42.5
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 51.7
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 55.15
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 60.28
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 60.68
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 61.08
+    - gameobject: {fileID: 3794580389325219645, guid: a79f6ce8e04455746b4ebee3f10a9cc6, type: 3}
+      timeInSeconds: 40.325
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 60.48
   - pointUp: {fileID: 1749483777}
     pointDown: {fileID: 1660571655}
     obstacles:
@@ -2173,19 +2237,24 @@ MonoBehaviour:
       timeInSeconds: 75.5
     - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
       timeInSeconds: 76.2
-  - pointUp: {fileID: 1749483777}
-    pointDown: {fileID: 1660571655}
-    obstacles:
-    - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
-      timeInSeconds: 5.65
-    - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
-      timeInSeconds: 9.4
-    - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
-      timeInSeconds: 10.65
-    - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
-      timeInSeconds: 17.5
-    - gameobject: {fileID: 1761384231872057205, guid: d6214267e10a0eb448c3a40080c42ca5, type: 3}
-      timeInSeconds: 17.8
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 39.65
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 40.05
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 40.45
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 40.85
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 41.25
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 44.8
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 47.53
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 50.66
+    - gameobject: {fileID: 85766620176461701, guid: 26d5d0ecbc94f264b9b8804240474887, type: 3}
+      timeInSeconds: 59
 --- !u!4 &1538884163
 Transform:
   m_ObjectHideFlags: 0
@@ -3300,6 +3369,10 @@ PrefabInstance:
     - target: {fileID: 4773615389382391667, guid: 5be803770fc22084a8ae8f272acc6e1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751430455945909721, guid: 5be803770fc22084a8ae8f272acc6e1c, type: 3}
+      propertyPath: maxLife
+      value: 10000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
