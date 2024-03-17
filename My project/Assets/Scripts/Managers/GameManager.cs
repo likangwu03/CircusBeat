@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private TMP_Text ComboNumberText;
 
     int score = 0;
+    private bool streak = false;
 
     // Primero en llamrase
     private void Awake()
@@ -50,7 +51,10 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.Find("Player");
-        pLC = player.GetComponent<PlayerLifeComponent>();
+        if (scene.name == "InGame 1")
+        {
+            pLC = player.GetComponent<PlayerLifeComponent>();
+        }
     }
 
     // Se llama cuando el objeto se desactiva
@@ -59,9 +63,29 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void streakHeal()
+    {
+        if (this.score > 10 && streak)
+        {
+            pLC.heal();
+            streak = false;
+        }
+    }
+
     public void addScore(int score)
     {
         this.score += score;
+        if (this.score % 10 == 0) streak = true;
+        streakHeal();
+        UpdateScore();
+        //Debug.Log("Score:" + this.score);
+    }
+
+    public void setScore(int score)
+    {
+        if (score == 0)
+            streak = false;
+        this.score = score;
         UpdateScore();
         //Debug.Log("Score:" + this.score);
     }

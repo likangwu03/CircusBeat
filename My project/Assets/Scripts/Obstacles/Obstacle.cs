@@ -60,7 +60,7 @@ public class Obstacle : MonoBehaviour
         if (other.GetComponent<PlayerMovementController>() != null)
         {
             col = true;
-            GameManager.instance.addScore(-score);
+            GameManager.instance.setScore(0);
             GameManager.instance.pLC.damage();
             Destroy(gameObject);
         }
