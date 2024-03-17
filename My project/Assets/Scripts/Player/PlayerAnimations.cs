@@ -12,7 +12,6 @@ public class PlayerAnimations : MonoBehaviour
     #region methods
     public void dashIz()
     {
-        pAnimator.ResetTrigger("Idle");
         pAnimator.ResetTrigger("DashDr");
         pAnimator.ResetTrigger("Jump");
         pAnimator.SetTrigger("DashIz");
@@ -20,7 +19,6 @@ public class PlayerAnimations : MonoBehaviour
 
     public void dashDr()
     {
-        pAnimator.ResetTrigger("Idle");
         pAnimator.ResetTrigger("DashIz");
         pAnimator.ResetTrigger("Jump");
         pAnimator.SetTrigger("DashDr");
@@ -28,7 +26,6 @@ public class PlayerAnimations : MonoBehaviour
 
     public void jump()
     {
-        pAnimator.ResetTrigger("Idle");
         pAnimator.ResetTrigger("DashIz");
         pAnimator.ResetTrigger("DashDr");
         pAnimator.SetTrigger("Jump");

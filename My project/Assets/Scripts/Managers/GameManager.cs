@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     public GameObject player { get; private set; }
+    public PlayerLifeComponent pLC { get; private set; }
 
     [SerializeField]
     GameObject ComboNumber;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.Find("Player");
+        pLC = player.GetComponent<PlayerLifeComponent>();
     }
 
     // Se llama cuando el objeto se desactiva
@@ -61,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         this.score += score;
         UpdateScore();
-        Debug.Log("Score:" + this.score);
+        //Debug.Log("Score:" + this.score);
     }
 
     public void UpdateScore()
