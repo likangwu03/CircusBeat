@@ -39,7 +39,7 @@ public class Obstacle : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(GameManager.instance != null)
+        if(GameManager.instance != null && !col)
         {
             GameManager.instance.addScore(score);
         }   
@@ -50,10 +50,10 @@ public class Obstacle : MonoBehaviour
     {
         if (other.GetComponent<PlayerMovementController>() != null)
         {
+            col = true;
             GameManager.instance.setCombo(0);
             GameManager.instance.pLC.damage();
             Destroy(gameObject);
-            col = true;
         }
     }
 }
