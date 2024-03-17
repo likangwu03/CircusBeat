@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    //private const float DEATH_THRESHOLD = 0.001f;
-
     private Transform trans;
+    bool col = false;
 
     [SerializeField]
     private float speed = 3.5f;
@@ -27,21 +26,14 @@ public class Obstacle : MonoBehaviour
         trans.position = Vector3.MoveTowards(trans.position, targetPos, step);
     }
 
-    //private void OnDestroy()
-    //{
-    //    //Notify gamemanager 
-    //    if (GameManager.instance != null && !col)
-    //    {
-    //        //Debug.Log("Score:" + this.score);
-    //        GameManager.instance.addScore(score);
-    //    }
-    //}
-
     // se llama cuando el objeto se sale de la camara
     private void OnBecameInvisible()
     {
-        GameManager.instance.addScore(score);
-        Destroy(this.gameObject);
+        if (!col)
+        {
+            Destroy(this.gameObject);
+            GameManager.instance.addScore(score);
+        }
     }
 
     //Upon collision with another GameObject, this GameObject will reverse direction
@@ -52,6 +44,7 @@ public class Obstacle : MonoBehaviour
             GameManager.instance.setScore(0);
             GameManager.instance.pLC.damage();
             Destroy(gameObject);
+            col = true;
         }
     }
 }
