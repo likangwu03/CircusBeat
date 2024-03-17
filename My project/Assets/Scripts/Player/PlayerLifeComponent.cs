@@ -12,6 +12,8 @@ public class PlayerLifeComponent : MonoBehaviour
 
     #region references
     [SerializeField]
+    Sprite deathSprite;
+    [SerializeField]
     private HpBar hpBar;
     #endregion
 
@@ -23,8 +25,15 @@ public class PlayerLifeComponent : MonoBehaviour
 
         if(currentLife <= 0)
         {
-            GameManager.instance.startGameOver();
+            gameObject.GetComponent<Animator>().enabled = false;
+            gameObject.GetComponent<PlayerMovementController>().enabled = false;
+            gameObject.GetComponent<SpriteRenderer>().sprite = deathSprite;
+            Invoke("startGameOver", 3.0f);
         }
+    }
+    private void startGameOver()
+    {
+        GameManager.instance.startGameOver();
     }
     public int getLife() { return currentLife; }
     public void heal() { 

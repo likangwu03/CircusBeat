@@ -221,11 +221,14 @@ public class GameManager : MonoBehaviour
     }
     public void updateComboText()
     {
-        if(combo == 0)
+        if (comboGO == null)
+            return;
+
+        if (combo == 0)
         {
             comboGO.SetActive(false);
         }
-        else if(!comboGO.activeInHierarchy && combo > 0)
+        else if(combo > 0)
         {
             comboGO.SetActive(true);
         }
