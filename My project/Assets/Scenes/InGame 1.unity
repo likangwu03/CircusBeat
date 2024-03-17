@@ -3318,6 +3318,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8845953331875409798, guid: 8fceb81cf197fe94a9aefb56a14b2c81, type: 3}
   m_PrefabInstance: {fileID: 1459195390}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1994372799 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5366102206055108587, guid: 8fceb81cf197fe94a9aefb56a14b2c81, type: 3}
+  m_PrefabInstance: {fileID: 1459195390}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0495bd2ae038116409d0fcbd892957fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3789795724231337795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3371,8 +3382,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7751430455945909721, guid: 5be803770fc22084a8ae8f272acc6e1c, type: 3}
+      propertyPath: hpBar
+      value: 
+      objectReference: {fileID: 1994372799}
+    - target: {fileID: 7751430455945909721, guid: 5be803770fc22084a8ae8f272acc6e1c, type: 3}
       propertyPath: maxLife
-      value: 10000
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
