@@ -135,6 +135,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void winGame()
+    {
+        if (pLC.getLife() > 0)
+        {
+            startWin();
+        }
+    }
+
     // Tercero en llamarse
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -144,6 +152,8 @@ public class GameManager : MonoBehaviour
             speaker.clip = mainAudio;
             stopMusic();
             playMusic();
+            CancelInvoke("winGame");
+            Invoke("winGame", mainAudio.length);
         }
         loadGame();
         loadMenu();
@@ -205,12 +215,6 @@ public class GameManager : MonoBehaviour
     {
         this.score += score * ((combo / 10) + 1);
         updateScoreText();
-
-        if (speaker != null && !speaker.isPlaying)
-        {
-            Debug.Log("DAIWYBDGYOUIAWGYDAWDTBADAWBIDNUAKWD");
-            startWin();
-        }
     }
 
     // COMBO
