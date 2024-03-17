@@ -43,6 +43,13 @@ public class PlayerMovementController : MonoBehaviour
 
     void Update() {
         if (Time.timeScale > 0.0f) {
+            if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+                if(InGround) {
+                    InGround = false;
+                    rigid.AddForce(new Vector2(0, jumpForce));
+                    pAnimations.jump();
+                }
+            }
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
                 if (Lane < 4) {
                     pAnimations.dashDr();
@@ -54,13 +61,6 @@ public class PlayerMovementController : MonoBehaviour
                     pAnimations.dashIz();
                     Lane--;
                 }
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-            if(InGround) {
-                InGround = false;
-                rigid.AddForce(new Vector2(0, jumpForce));
-                pAnimations.jump();
             }
         }
     }
