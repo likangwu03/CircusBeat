@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-
     [SerializeField] GameObject _canvas; 
     [SerializeField] GameObject _pauseMenu;
 
@@ -16,9 +15,6 @@ public class PauseMenu : MonoBehaviour
     bool exiting;
     float counter;
 
-    [SerializeField]
-    private AudioSource _music;
-
     public void enterPause()
     {
         exiting = false;
@@ -27,7 +23,7 @@ public class PauseMenu : MonoBehaviour
         _countdown.SetActive(false);
         // no pasa el tiempo (es como si estuviera en pausa)
         Time.timeScale = 0;
-        _music.Pause();
+        GameManager.instance.pauseMusic();
     }
     public void quitPause()
     {
@@ -52,7 +48,7 @@ public class PauseMenu : MonoBehaviour
     public void toMainMenu()
     {
         quitPause();
-        SceneManager.LoadScene("Main Menu");
+        GameManager.instance.startMenu();
     }
 
     // Start is called before the first frame update
@@ -83,7 +79,7 @@ public class PauseMenu : MonoBehaviour
                 _countdown.SetActive(false);
                 exiting = false;
                 Time.timeScale = 1;
-                _music.Play();
+                GameManager.instance.playMusic();
                 Debug.Log("Unpaused");
             }
         }

@@ -20,6 +20,11 @@ public class PlayerLifeComponent : MonoBehaviour
         if (currentLife > 0)
             currentLife -= 1;
         hpBar.SetHealth(currentLife);
+
+        if(currentLife <= 0)
+        {
+            GameManager.instance.startGameOver();
+        }
     }
     public int getLife() { return currentLife; }
     public void heal() { 
@@ -39,11 +44,5 @@ public class PlayerLifeComponent : MonoBehaviour
 
         hpBar.SetMaxHealth(maxLife);
         hpBar.SetHealth(currentLife);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
     }
 }

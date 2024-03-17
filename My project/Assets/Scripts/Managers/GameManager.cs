@@ -10,17 +10,18 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    public GameObject player { get; private set; }
-    public PlayerLifeComponent pLC { get; private set; }
-
-    [SerializeField]
-    GameObject ComboNumber;
-    private TMP_Text ComboNumberText;
+    private TMP_Text comboNumberText;
 
     [SerializeField]
     private int streak = 10;
-    private int score = 0;
+    private int combo;
+    private int score;
     //private bool isStreak = false;
+
+    private AudioSource speaker;
+
+    public GameObject player { get; private set; }
+    public PlayerLifeComponent pLC { get; private set; }
 
     // Primero en llamrase
     private void Awake()
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        combo = 0; score = 0;
+    }
+
     // Segundo en llamarse (cuando el objeto se activa)
     private void OnEnable()
     {
@@ -45,18 +51,73 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Start()
+    private void loadGame()
     {
-        ComboNumberText = ComboNumber.GetComponent<TMP_Text>();
+        // JUEGO
+        combo = 0; score = 0;
+        player = GameObject.Find("Player");
+        if (player != null)
+        {
+            pLC = player.GetComponent<PlayerLifeComponent>();
+        }
+        GameObject comboNumber = GameObject.Find("ComboNumberText");
+        if (comboNumber != null)
+        {
+            comboNumberText = comboNumber.GetComponent<TMP_Text>();
+        }
+        GameObject speakerObject = GameObject.Find("Speaker");
+        if (speakerObject != null)
+        {
+            speaker = speakerObject.GetComponent<AudioSource>();
+            stopMusic();
+            playMusic();
+        }
+    }
+
+    private void loadMenu()
+    {
+        GameObject playIcon = GameObject.Find("Play Icon");
+        if (playIcon != null)
+        {
+            Button playButton = playIcon.GetComponent<Button>();
+            playButton.onClick.AddListener(() => this.startGame());
+        }
+        GameObject exitIcon = GameObject.Find("Exit Icon");
+        if (exitIcon != null)
+        {
+            Button exitButton = exitIcon.GetComponent<Button>();
+            exitButton.onClick.AddListener(() => this.quit());
+        }
+        GameObject creditsIcon = GameObject.Find("Credits Icon");
+        if (creditsIcon != null)
+        {
+            Button creditsButton = creditsIcon.GetComponent<Button>();
+            creditsButton.onClick.AddListener(() => this.startCredits());
+        }
+    }
+
+    private void loadGameOver()
+    {
+        GameObject mainMenuIcon = GameObject.Find("Main Menu Icon");
+        if (mainMenuIcon != null)
+        {
+            Button mainMenuButton = mainMenuIcon.GetComponent<Button>();
+            mainMenuButton.onClick.AddListener(() => this.startMenu());
+        }
+        GameObject exitIcon = GameObject.Find("EXIT");
+        if (exitIcon != null)
+        {
+            Button exitButton = exitIcon.GetComponent<Button>();
+            exitButton.onClick.AddListener(() => this.quit());
+        }
     }
 
     // Tercero en llamarse
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        player = GameObject.Find("Player");
-        // no hace falta el if
-        // si no lo encuentra, es null y no se usa
-        pLC = player.GetComponent<PlayerLifeComponent>();
+        loadGame();
+        loadMenu();
+        loadGameOver();
     }
 
     // Se llama cuando el objeto se desactiva
@@ -65,39 +126,82 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void streakHeal()
+    // TRANSICIONES
+    public void startMenu()
     {
-        //if (this.score > streak && isStreak)
-        if (this.score % streak == 0 && this.score != 0)
-        {
-            pLC.heal();
-            //isStreak = false;
-        }
+        SceneManager.LoadScene("Main Menu");
+    }
+    public void startGame()
+    {
+        SceneManager.LoadScene("InGame 1");
+    }
+    public void startCredits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+    public void startGameOver()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+    public void quit()
+    {
+        Application.Quit();
+    }
+
+    // MUSICA
+    public void playMusic()
+    {
+        speaker.Play();
+    }
+    public void stopMusic()
+    {
+        speaker.Stop();
+    }
+    public void pauseMusic()
+    {
+        speaker.Pause();
+    }
+    public float musicTime()
+    {
+        return speaker.time;
     }
 
     public void addScore(int score)
     {
         this.score += score;
+    }
+
+    // COMBO
+    private void streakHeal()
+    {
+        //if (this.score > streak && isStreak)
+        if (this.combo % streak == 0) /*&& this.score != 0)*/
+        {
+            pLC.heal();
+            //isStreak = false;
+        }
+    }
+    public void addCombo(int combo)
+    {
+        this.combo += combo;
         //if (this.score % streak == 0)
         //{
         //    isStreak = true;
         //}
         streakHeal();
-        UpdateScore();
+        updateComboText();
     }
-
-    public void setScore(int score)
+    public void setCombo(int combo)
     {
         //if (score == 0)
         //{
         //    isStreak = false;
         //}
-        this.score = score;
-        UpdateScore();
+        this.combo = combo;
+        updateComboText();
     }
-
-    public void UpdateScore()
+    public void updateComboText()
     {
-        ComboNumberText.text = score.ToString();
+        comboNumberText.text = combo.ToString();
     }
 }
