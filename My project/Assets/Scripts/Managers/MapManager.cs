@@ -52,7 +52,7 @@ public class MapManager : MonoBehaviour
     private ColumnInfo[] columns;
 
     private EnemyAnimator eAnimations;
-    private bool b_idle = false;
+    private bool first = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -80,14 +80,10 @@ public class MapManager : MonoBehaviour
                 if (obstacles[j].timeInSeconds < GameManager.instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
-                    if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !b_idle)
+                    if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !first)
                     {
+                        first = true;
                         eAnimations.at_B();
-                    }
-                    else
-                    {
-                        eAnimations.at_R();
-                        
                     }
                     Obstacle obstacleComp = obstacleObject.GetComponent<Obstacle>();
                     if (obstacleComp != null)
@@ -99,10 +95,18 @@ public class MapManager : MonoBehaviour
                     {
                         Destroy(obstacleObject);
                     }
+                    
                     if (GameManager.instance.musicTime() > 80)
-                    {
-                        b_idle = true;
+                    {         
                         eAnimations.e_Idle();
+                    }
+                    else if (GameManager.instance.musicTime() > 63)
+                    {
+                        eAnimations.at_B();
+                    }
+                    else if(GameManager.instance.musicTime() > 39.45)
+                    {
+                        eAnimations.at_R();
                     }
                 }
                 else
