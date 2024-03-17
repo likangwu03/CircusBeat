@@ -31,18 +31,23 @@ public class PlayerMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-            if (Lane < 4)
+        if (Time.timeScale > 0.0f)
+        {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
-                pAnimations.dashDr();
-                Lane++;      
+                if (Lane < 4)
+                {
+                    pAnimations.dashDr();
+                    Lane++;
+                }
             }
-        }
-        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-            if (Lane > 0)
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                pAnimations.dashIz();
-                Lane--;
+                if (Lane > 0)
+                {
+                    pAnimations.dashIz();
+                    Lane--;
+                }
             }
         }
     }
