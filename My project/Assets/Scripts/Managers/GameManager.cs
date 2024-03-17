@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private Animator comboAnimator;
 
     [SerializeField]
+    private AudioClip mainAudio;
+    [SerializeField]
     private int streak = 10;
     private int combo;
     private int score;
@@ -74,19 +76,12 @@ public class GameManager : MonoBehaviour
             scoreNumberText = scoreNumber.GetComponent<TMP_Text>();
         }
         GameObject comboImage = GameObject.Find("Image");
-        if(comboImage != null)
+        if (comboImage != null)
         {
-            comboAnimator = comboImage.GetComponent<Animator>(); 
-        }
-        GameObject speakerObject = GameObject.Find("Speaker");
-        if (speakerObject != null)
-        {
-            speaker = speakerObject.GetComponent<AudioSource>();
-            stopMusic();
-            playMusic();
+            comboAnimator = comboImage.GetComponent<Animator>();
         }
         comboGO = GameObject.Find("Combo");
-        if(comboGO != null)
+        if (comboGO != null)
         {
             comboGO.SetActive(false);
         }
@@ -143,6 +138,13 @@ public class GameManager : MonoBehaviour
     // Tercero en llamarse
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if(scene.name == "InGame 2")
+        {
+            speaker = SoundManager.instance.GetComponent<AudioSource>();
+            speaker.clip = mainAudio;
+            stopMusic();
+            playMusic();
+        }
         loadGame();
         loadMenu();
         loadGameOver();

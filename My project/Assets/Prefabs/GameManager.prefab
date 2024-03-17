@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9919c17013b82f043a019c7045bf0d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainAudio: {fileID: 8300000, guid: e74fd61b7f21e4b4bbe13cb137aeb37c, type: 3}
   streak: 10
