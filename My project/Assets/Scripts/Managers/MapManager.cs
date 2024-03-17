@@ -52,8 +52,7 @@ public class MapManager : MonoBehaviour
     private ColumnInfo[] columns;
 
     private EnemyAnimator eAnimations;
-    private bool blue = false;
-    private bool red = false;
+    private bool b_idle = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -81,15 +80,13 @@ public class MapManager : MonoBehaviour
                 if (obstacles[j].timeInSeconds < GameManager.instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
-                    if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !red)
+                    if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !b_idle)
                     {
                         eAnimations.at_B();
-                        blue = true;
                     }
                     else
                     {
                         eAnimations.at_R();
-                        red = true;
                         
                     }
                     Obstacle obstacleComp = obstacleObject.GetComponent<Obstacle>();
@@ -101,6 +98,11 @@ public class MapManager : MonoBehaviour
                     else
                     {
                         Destroy(obstacleObject);
+                    }
+                    if (GameManager.instance.musicTime() > 80)
+                    {
+                        b_idle = true;
+                        eAnimations.e_Idle();
                     }
                 }
                 else
