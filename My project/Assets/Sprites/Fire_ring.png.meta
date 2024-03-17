@@ -115,8 +115,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 382
-        height: 1046
+        width: 422
+        height: 1184
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: Fire_ring_1
       rect:
         serializedVersion: 2
-        x: 382
+        x: 422
         y: 0
-        width: 382
-        height: 1046
+        width: 422
+        height: 1184
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

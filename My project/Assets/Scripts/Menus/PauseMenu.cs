@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] GameObject _canvas; 
+    [SerializeField] GameObject _canvas;
     [SerializeField] GameObject _pauseMenu;
 
     [SerializeField] private float _countdownTime = 3.5f;
@@ -21,22 +21,25 @@ public class PauseMenu : MonoBehaviour
         _canvas.SetActive(true);
         _pauseMenu.SetActive(true);
         _countdown.SetActive(false);
+
         // no pasa el tiempo (es como si estuviera en pausa)
         Time.timeScale = 0;
         GameManager.instance.pauseMusic();
     }
+
     public void quitPause()
     {
+        exiting = true;
+        _canvas.SetActive(true);
         _pauseMenu.SetActive(false);
         _countdown.SetActive(true);
-        exiting = true;
 
         // + 1 porque el contador muestra su valor truncado,
         // y nada mas comienza la cuenta atras, _countdownTime
         // deja de ser el numero indicado y se pasa a mostrar
         // el entero anterior
         counter = _countdownTime + 1;
-        
+
     }
 
     private void setPause()
@@ -47,21 +50,19 @@ public class PauseMenu : MonoBehaviour
 
     public void toMainMenu()
     {
-        quitPause();
+        Time.timeScale = 1;
         GameManager.instance.startMenu();
     }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        quitPause();
-
         _countdownText = _countdown.GetComponent<TextMeshProUGUI>();
-        _canvas.SetActive(false);
-        _countdown.SetActive(false);
-        exiting = false;
-        Time.timeScale = 1;
+        enterPause();
+        quitPause();
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -80,7 +81,6 @@ public class PauseMenu : MonoBehaviour
                 exiting = false;
                 Time.timeScale = 1;
                 GameManager.instance.playMusic();
-                Debug.Log("Unpaused");
             }
         }
     }
