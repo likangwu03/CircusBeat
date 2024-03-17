@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
     }
     public void startGame()
     {
-        SceneManager.LoadScene("InGame 1");
+        SceneManager.LoadScene("InGame 2");
     }
     public void startCredits()
     {
@@ -203,6 +203,12 @@ public class GameManager : MonoBehaviour
     {
         this.score += score * ((combo / 10) + 1);
         updateScoreText();
+
+        if (speaker != null && !speaker.isPlaying)
+        {
+            Debug.Log("DAIWYBDGYOUIAWGYDAWDTBADAWBIDNUAKWD");
+            startWin();
+        }
     }
 
     // COMBO
@@ -224,11 +230,6 @@ public class GameManager : MonoBehaviour
         //}
         streakHeal();
         updateComboText();
-        if(speaker != null && !speaker.isPlaying)
-        {
-            Debug.Log("DAIWYBDGYOUIAWGYDAWDTBADAWBIDNUAKWD");
-            startWin();
-        }
     }
     public void setCombo(int combo)
     {

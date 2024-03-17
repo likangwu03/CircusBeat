@@ -12,12 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 334e6072226462741ab2e91e4047af94
   - enabled: 1
-    path: Assets/Scenes/InGame 1.unity
-    guid: d287010cf6c17d24bab867c674f3436a
+    path: Assets/Scenes/InGame 2.unity
+    guid: a6e59c9787031ed48873ad5a96bcbd5a
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: c40887d9b483bd542931592b9b556488
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 2ad5f12e3fcec2c43af40901153545b6
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 94f6e7cbd4efff042b3d364815c66c5f
   m_configObjects: {}
