@@ -6,7 +6,7 @@ public class Bunny : MonoBehaviour
 {
     private BoxCollider boxCollider;
     [SerializeField]
-    private float jumpingColliderHeight = 3.33f;
+    private float jumpingColliderHeight = 1.7f;
     private Animator anim;
     private float initialColliderHeight;
 
