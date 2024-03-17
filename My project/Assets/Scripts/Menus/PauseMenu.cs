@@ -7,28 +7,33 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
 
-    [SerializeField]  GameObject _pauseMenu;
+    [SerializeField] GameObject _canvas; 
+    [SerializeField] GameObject _pauseMenu;
 
     [SerializeField] private float _countdownTime = 3.5f;
     [SerializeField] private GameObject _countdown;
     TextMeshProUGUI _countdownText = null;
     bool exiting;
     float counter;
-    
+
+    [SerializeField]
+    private AudioSource _music;
+
     public void enterPause()
     {
         exiting = false;
+        _canvas.SetActive(true);
         _pauseMenu.SetActive(true);
         _countdown.SetActive(false);
         // no pasa el tiempo (es como si estuviera en pausa)
         Time.timeScale = 0;
+        _music.Pause();
     }
     public void quitPause()
     {
         _pauseMenu.SetActive(false);
         _countdown.SetActive(true);
         exiting = true;
-        Time.timeScale = 1;
 
         // + 1 porque el contador muestra su valor truncado,
         // y nada mas comienza la cuenta atras, _countdownTime
@@ -56,6 +61,7 @@ public class PauseMenu : MonoBehaviour
         quitPause();
 
         _countdownText = _countdown.GetComponent<TextMeshProUGUI>();
+        _canvas.SetActive(false);
         _countdown.SetActive(false);
         exiting = false;
         Time.timeScale = 1;
@@ -73,9 +79,11 @@ public class PauseMenu : MonoBehaviour
 
             if (counter < 1)
             {
+                _canvas.SetActive(false);
                 _countdown.SetActive(false);
                 exiting = false;
                 Time.timeScale = 1;
+                _music.Play();
                 Debug.Log("Unpaused");
             }
         }
