@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
             speaker.clip = mainAudio;
             stopMusic();
             playMusic();
-            CancelInvoke("winGame");
+            // si tiene en cuenta el Time.timeScale
             Invoke("winGame", mainAudio.length);
         }
         loadGame();
@@ -170,22 +170,27 @@ public class GameManager : MonoBehaviour
     // TRANSICIONES
     public void startMenu()
     {
+        CancelInvoke("winGame");
         SceneManager.LoadScene("Main Menu");
     }
     public void startGame()
     {
+        CancelInvoke("winGame");
         SceneManager.LoadScene("InGame 2");
     }
     public void startCredits()
     {
+        CancelInvoke("winGame");
         SceneManager.LoadScene("Credits");
     }
     public void startGameOver()
     {
+        CancelInvoke("winGame");
         SceneManager.LoadScene("GameOver");
     }
     public void startWin()
     {
+        CancelInvoke("winGame");
         SceneManager.LoadScene("Win");
     }
     public void quit()
