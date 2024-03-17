@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     private TMP_Text comboNumberText;
+    private GameObject comboGO;
+    private Animator comboAnimator;
 
     [SerializeField]
     private int streak = 10;
@@ -65,12 +67,22 @@ public class GameManager : MonoBehaviour
         {
             comboNumberText = comboNumber.GetComponent<TMP_Text>();
         }
+        GameObject comboImage = GameObject.Find("Image");
+        if(comboImage != null)
+        {
+            comboAnimator = comboImage.GetComponent<Animator>(); 
+        }
         GameObject speakerObject = GameObject.Find("Speaker");
         if (speakerObject != null)
         {
             speaker = speakerObject.GetComponent<AudioSource>();
             stopMusic();
             playMusic();
+        }
+        comboGO = GameObject.Find("Combo");
+        if(comboGO != null)
+        {
+            comboGO.SetActive(false);
         }
     }
 
@@ -202,6 +214,19 @@ public class GameManager : MonoBehaviour
     }
     public void updateComboText()
     {
-        comboNumberText.text = combo.ToString();
+        if(combo == 0)
+        {
+            comboGO.SetActive(false);
+        }
+        else if(!comboGO.activeInHierarchy && combo > 0)
+        {
+            comboGO.SetActive(true);
+        }
+
+        if (comboAnimator != null)
+        {
+            comboAnimator.SetInteger("Combo", combo);
+            comboNumberText.text = combo.ToString();            
+        }
     }
 }

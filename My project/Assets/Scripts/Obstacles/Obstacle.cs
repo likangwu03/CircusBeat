@@ -33,7 +33,7 @@ public class Obstacle : MonoBehaviour
         if (!col)
         {
             Destroy(this.gameObject);
-            GameManager.instance.addCombo(score);
+            if (GameManager.instance != null) GameManager.instance.addCombo(score);
         }
     }
 
