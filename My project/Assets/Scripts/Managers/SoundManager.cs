@@ -21,7 +21,6 @@ public class SoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(AudioSettings.dspTime);
         if (AudioSettings.dspTime > goalTime - delay)
         {
             OnPlayMusic();
