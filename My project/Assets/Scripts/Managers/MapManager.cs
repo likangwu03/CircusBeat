@@ -49,9 +49,7 @@ public class MapManager : MonoBehaviour
     [SerializeField]
     private AudioSource _music;
 
-   List<int>[] garbage;
-
-    private float timeSinceMusic;
+    List<int>[] garbage;
 
     [SerializeField]
     private ColumnInfo[] columns;
@@ -59,7 +57,6 @@ public class MapManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        timeSinceMusic = 0.0f;
         _music.Play();
         // se reserva la memoria
         garbage = new List<int>[columns.Length];
@@ -73,16 +70,13 @@ public class MapManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //timeSinceMusic += Time.deltaTime;
-        timeSinceMusic = _music.time;
-
         for (int i = 0; i < columns.Length; ++i)
         {
             ColumnInfo col = columns[i];
             for (int j = 0; j < col.obstacles.Count; ++j)
             {
                 List<ObstacleInfo> obstacles = col.obstacles;
-                if (obstacles[j].timeInSeconds < timeSinceMusic)
+                if (obstacles[j].timeInSeconds < _music.time)
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
                     Obstacle obstacleComp = obstacleObject.GetComponent<Obstacle>();
