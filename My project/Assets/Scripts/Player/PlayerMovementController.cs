@@ -8,8 +8,15 @@ public class PlayerMovementController : MonoBehaviour
 
     [SerializeField]
     private float[] positions;
+
+    [SerializeField]
+    private float jumpForce = 3.0f;
     
     private PlayerAnimations pAnimations;
+    private Rigidbody rigid;
+
+    [SerializeField]
+    private FloorTrigger trigger;
 
     private int lane = 2;
 
@@ -21,11 +28,15 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
+    public bool InGround { get; private set; } = true;
+
     // Start is called before the first frame update
     void Start()
     {
         pAnimations = gameObject.GetComponent<PlayerAnimations>();
         trans = transform;
+        rigid = GetComponent<Rigidbody>();
+        trigger.accionEntrar = () => { InGround = true; };
     }
 
     // Update is called once per frame
@@ -48,6 +59,13 @@ public class PlayerMovementController : MonoBehaviour
                     pAnimations.dashIz();
                     Lane--;
                 }
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+            if(InGround) {
+                InGround = false;
+                rigid.AddForce(new Vector2(0, jumpForce));
+                pAnimations.jump();
             }
         }
     }
