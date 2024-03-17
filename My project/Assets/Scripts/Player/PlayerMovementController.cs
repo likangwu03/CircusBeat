@@ -34,32 +34,23 @@ public class PlayerMovementController : MonoBehaviour
 
     public bool InGround { get; private set; } = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         pAnimations = gameObject.GetComponent<PlayerAnimations>();
         trans = transform;
         rigid = GetComponent<Rigidbody>();
         trigger.accionEntrar = () => { InGround = true; };
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Time.timeScale > 0.0f)
-        {
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if (Lane < 4)
-                {
+    void Update() {
+        if (Time.timeScale > 0.0f) {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
+                if (Lane < 4) {
                     pAnimations.dashDr();
                     Lane++;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                if (Lane > 0)
-                {
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+                if (Lane > 0) {
                     pAnimations.dashIz();
                     Lane--;
                 }
