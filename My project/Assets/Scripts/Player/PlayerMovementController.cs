@@ -18,6 +18,9 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     private FloorTrigger trigger;
 
+    [SerializeField]
+    private Transform highlight;
+
     private int lane = 2;
 
     public int Lane {
@@ -25,6 +28,7 @@ public class PlayerMovementController : MonoBehaviour
         private set {
             lane = value;
             trans.position = new Vector3(positions[lane], trans.position.y, trans.position.z);
+            highlight.position = new Vector3(positions[lane], highlight.position.y, highlight.position.z);
         }
     }
 
