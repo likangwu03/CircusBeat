@@ -30,19 +30,12 @@ public class Obstacle : MonoBehaviour
     // (si se destruye antes de salir de la camara, tb se accede a este metodo)
     private void OnBecameInvisible()
     {
-        if (!col)
-        {
-            Destroy(this.gameObject);
-            if (GameManager.instance != null) GameManager.instance.addCombo(score);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if(GameManager.instance != null && !col)
+        if (GameManager.instance != null && !col)
         {
             GameManager.instance.addScore(score);
-        }   
+            GameManager.instance.addCombo(score);
+            Destroy(this.gameObject);
+        }
     }
 
     //Upon collision with another GameObject, this GameObject will reverse direction

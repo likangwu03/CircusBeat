@@ -130,12 +130,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void loadWin()
+    {
+        GameObject mainMenuIcon = GameObject.Find("Main Menu Icon");
+        if (mainMenuIcon != null)
+        {
+            Button mainMenuButton = mainMenuIcon.GetComponent<Button>();
+            mainMenuButton.onClick.AddListener(() => this.startMenu());
+        }
+    }
+
     // Tercero en llamarse
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         loadGame();
         loadMenu();
         loadGameOver();
+        loadWin();
     }
 
     // Se llama cuando el objeto se desactiva
@@ -213,13 +224,14 @@ public class GameManager : MonoBehaviour
         //}
         streakHeal();
         updateComboText();
+        if(speaker != null && !speaker.isPlaying)
+        {
+            Debug.Log("DAIWYBDGYOUIAWGYDAWDTBADAWBIDNUAKWD");
+            startWin();
+        }
     }
     public void setCombo(int combo)
     {
-        //if (score == 0)
-        //{
-        //    isStreak = false;
-        //}
         if(combo == 0)
         {
             comboAnimator.SetTrigger("Hit");

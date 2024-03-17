@@ -39,5 +39,9 @@ public class SoundManager : MonoBehaviour
         delay += 0.2;
     }
 
+    private void OnMusicEnd()
+    {
+        
+    }
 
 }
