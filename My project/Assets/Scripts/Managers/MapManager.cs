@@ -51,9 +51,13 @@ public class MapManager : MonoBehaviour
     [SerializeField]
     private ColumnInfo[] columns;
 
+    private EnemyAnimator eAnimations;
+
     // Start is called before the first frame update
     private void Start()
     {
+        eAnimations = GameObject.Find("Enemy").GetComponent<EnemyAnimator>();
+
         // se reserva la memoria
         garbage = new List<int>[columns.Length];
         for (int i = 0; i < columns.Length; ++i)
@@ -75,6 +79,14 @@ public class MapManager : MonoBehaviour
                 if (obstacles[j].timeInSeconds < GameManager.instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
+                    if (obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball")
+                    {
+                        eAnimations.at_B();
+                    }
+                    else
+                    {
+                        eAnimations.at_R();
+                    }
                     Obstacle obstacleComp = obstacleObject.GetComponent<Obstacle>();
                     if (obstacleComp != null)
                     {
