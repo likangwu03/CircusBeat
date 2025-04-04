@@ -30,11 +30,11 @@ public class Obstacle : MonoBehaviour
     // (si se destruye antes de salir de la camara, tb se accede a este metodo)
     private void OnBecameInvisible()
     {
-        if (GameManager.instance != null && !col)
+        if (GameManager.Instance != null && !col)
         {
-            GameManager.instance.addScore(score);
-            GameManager.instance.addCombo(score);
-            Destroy(this.gameObject);
+            GameManager.Instance.addScore(score);
+            GameManager.Instance.addCombo(score);
+            Destroy(gameObject);
         }
     }
 
@@ -44,8 +44,8 @@ public class Obstacle : MonoBehaviour
         if (other.GetComponent<PlayerMovementController>() != null)
         {
             col = true;
-            GameManager.instance.setCombo(0);
-            GameManager.instance.pLC.damage();
+            GameManager.Instance.setCombo(0);
+            GameManager.Instance.pLC.damage();
             Destroy(gameObject);
         }
     }

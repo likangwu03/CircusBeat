@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static GameManager Instance = null;
 
     private TMP_Text comboNumberText;
     private TMP_Text scoreNumberText;
@@ -32,14 +32,14 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Patron Singleton
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -93,19 +93,19 @@ public class GameManager : MonoBehaviour
         if (playIcon != null)
         {
             Button playButton = playIcon.GetComponent<Button>();
-            playButton.onClick.AddListener(() => this.startGame());
+            playButton.onClick.AddListener(() => startGame());
         }
         GameObject exitIcon = GameObject.Find("Exit Icon");
         if (exitIcon != null)
         {
             Button exitButton = exitIcon.GetComponent<Button>();
-            exitButton.onClick.AddListener(() => this.quit());
+            exitButton.onClick.AddListener(() => quit());
         }
         GameObject creditsIcon = GameObject.Find("Credits Icon");
         if (creditsIcon != null)
         {
             Button creditsButton = creditsIcon.GetComponent<Button>();
-            creditsButton.onClick.AddListener(() => this.startCredits());
+            creditsButton.onClick.AddListener(() => startCredits());
         }
     }
 
@@ -115,13 +115,13 @@ public class GameManager : MonoBehaviour
         if (mainMenuIcon != null)
         {
             Button mainMenuButton = mainMenuIcon.GetComponent<Button>();
-            mainMenuButton.onClick.AddListener(() => this.startMenu());
+            mainMenuButton.onClick.AddListener(() => startMenu());
         }
         GameObject exitIcon = GameObject.Find("EXIT");
         if (exitIcon != null)
         {
             Button exitButton = exitIcon.GetComponent<Button>();
-            exitButton.onClick.AddListener(() => this.quit());
+            exitButton.onClick.AddListener(() => quit());
         }
     }
 
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
         if (mainMenuIcon != null)
         {
             Button mainMenuButton = mainMenuIcon.GetComponent<Button>();
-            mainMenuButton.onClick.AddListener(() => this.startMenu());
+            mainMenuButton.onClick.AddListener(() => startMenu());
         }
     }
 
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
     {
         if(scene.name == "InGame 2")
         {
-            speaker = SoundManager.instance.GetComponent<AudioSource>();
+            speaker = SoundManager.Instance.GetComponent<AudioSource>();
             speaker.clip = mainAudio;
             stopMusic();
             playMusic();
@@ -216,39 +216,39 @@ public class GameManager : MonoBehaviour
         return speaker.time;
     }
 
-    public void addScore(int score)
+    public void addScore(int sc)
     {
-        this.score += score * ((combo / 10) + 1);
+        score += sc * ((combo / 10) + 1);
         updateScoreText();
     }
 
     // COMBO
     private void streakHeal()
     {
-        //if (this.score > streak && isStreak)
-        if (this.combo % streak == 0) /*&& this.score != 0)*/
+        //if (score > streak && isStreak)
+        if (combo % streak == 0) /*&& score != 0)*/
         {
             pLC.heal();
             //isStreak = false;
         }
     }
-    public void addCombo(int combo)
+    public void addCombo(int c)
     {
-        this.combo += combo;
-        //if (this.score % streak == 0)
+        combo += c;
+        //if (score % streak == 0)
         //{
         //    isStreak = true;
         //}
         streakHeal();
         updateComboText();
     }
-    public void setCombo(int combo)
+    public void setCombo(int c)
     {
-        if(combo == 0)
+        if(c == 0)
         {
             comboAnimator.SetTrigger("Hit");
         }
-        this.combo = combo;
+        combo = c;
         updateComboText();
     }
     public void updateComboText()

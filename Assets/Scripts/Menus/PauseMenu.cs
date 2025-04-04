@@ -24,7 +24,7 @@ public class PauseMenu : MonoBehaviour
 
         // no pasa el tiempo (es como si estuviera en pausa)
         Time.timeScale = 0;
-        GameManager.instance.pauseMusic();
+        GameManager.Instance.pauseMusic();
     }
 
     public void quitPause()
@@ -51,7 +51,7 @@ public class PauseMenu : MonoBehaviour
     public void toMainMenu()
     {
         Time.timeScale = 1;
-        GameManager.instance.startMenu();
+        GameManager.Instance.startMenu();
     }
 
 
@@ -80,7 +80,7 @@ public class PauseMenu : MonoBehaviour
                 _countdown.SetActive(false);
                 exiting = false;
                 Time.timeScale = 1;
-                GameManager.instance.playMusic();
+                GameManager.Instance.playMusic();
             }
         }
     }

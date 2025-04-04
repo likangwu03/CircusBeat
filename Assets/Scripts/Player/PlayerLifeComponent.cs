@@ -36,7 +36,7 @@ public class PlayerLifeComponent : MonoBehaviour
     }
     private void startGameOver()
     {
-        GameManager.instance.startGameOver();
+        GameManager.Instance.startGameOver();
     }
     public int getLife() { return currentLife; }
     public void heal() { 

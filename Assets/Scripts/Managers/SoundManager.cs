@@ -13,7 +13,7 @@ public class ClipInfo
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance = null;
+    public static SoundManager Instance = null;
 
     private double musicDuration;
     private double goalTime = 0.0;
@@ -31,16 +31,16 @@ public class SoundManager : MonoBehaviour
     private void Awake()
     {
         // Patron Singleton
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
 
             audioSource = GetComponent<AudioSource>();
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 

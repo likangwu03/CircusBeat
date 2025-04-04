@@ -77,7 +77,7 @@ public class MapManager : MonoBehaviour
             for (int j = 0; j < col.obstacles.Count; ++j)
             {
                 List<ObstacleInfo> obstacles = col.obstacles;
-                if (obstacles[j].timeInSeconds < GameManager.instance.musicTime())
+                if (obstacles[j].timeInSeconds < GameManager.Instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
                     if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !first)
@@ -96,15 +96,15 @@ public class MapManager : MonoBehaviour
                         Destroy(obstacleObject);
                     }
                     
-                    if (GameManager.instance.musicTime() > 80)
+                    if (GameManager.Instance.musicTime() > 80)
                     {         
                         eAnimations.e_Idle();
                     }
-                    else if (GameManager.instance.musicTime() > 63)
+                    else if (GameManager.Instance.musicTime() > 63)
                     {
                         eAnimations.at_B();
                     }
-                    else if(GameManager.instance.musicTime() > 39.45)
+                    else if(GameManager.Instance.musicTime() > 39.45)
                     {
                         eAnimations.at_R();
                     }
