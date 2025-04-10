@@ -27,7 +27,7 @@ public class Tracker : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this);
         }
     }
 
@@ -41,9 +41,9 @@ public class Tracker : MonoBehaviour
 
         //TestCreateEvent();
         TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_START);
-        SendEvent(ev);
-
-
+        //SendEvent(ev);
+        string tst = JsonUtility.ToJson(ev);
+        int aaa = 1;
     }
 
     // Update is called once per frame
@@ -52,13 +52,6 @@ public class Tracker : MonoBehaviour
 
     }
 
-
-    public void TestCreateEvent()
-    {
-        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_START);
-        TrackerEvent lol = new GameEvent(sessionId, GameEventType.LEVEL_END);
-        int asa = 1;
-    }
 
     public void SendEvent(TrackerEvent evt)
     {

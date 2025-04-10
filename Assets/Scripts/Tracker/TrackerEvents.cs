@@ -5,10 +5,10 @@ public enum TrackerEventType { TRACKER_EVENT_NONE = -1, SESSION_START, SESSION_E
 [Serializable]
 public class TrackerEvent
 {
-    public string SessionId { get; protected set; } = "";
-    public long Timestamp { get; protected set; } = 0;
-    public int EventType { get; protected set; } = (int)TrackerEventType.TRACKER_EVENT_NONE;
-    public string EventId { get; protected set; } = "";
+    public string SessionId = "";
+    public long Timestamp = 0;
+    public int EventType = (int)TrackerEventType.TRACKER_EVENT_NONE;
+    public string EventId = "";
 
 
     public TrackerEvent(string sessionId, int eventType)
