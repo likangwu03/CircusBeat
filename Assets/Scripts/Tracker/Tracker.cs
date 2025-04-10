@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class Tracker : MonoBehaviour
     uint maxQueueSize = 400;
     Queue<TrackerEvent> eventsQueue;
 
+    private ThreadedEventLogger threadedEvent;
 
     private void Awake()
     {
@@ -33,9 +35,14 @@ public class Tracker : MonoBehaviour
     void Start()
     {
         sessionId = Environment.MachineName + "_" + DateTimeOffset.Now.ToUnixTimeSeconds();
-
         eventsQueue = new Queue<TrackerEvent>();
-        TestCreateEvent();
+        threadedEvent = new ThreadedEventLogger();
+        threadedEvent.Start();
+
+        //TestCreateEvent();
+        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_START);
+        SendEvent(ev);
+
 
     }
 
@@ -53,12 +60,31 @@ public class Tracker : MonoBehaviour
         int asa = 1;
     }
 
-    private void EnqueEvent(TrackerEvent evt)
+    public void SendEvent(TrackerEvent evt)
     {
         eventsQueue.Enqueue(evt);
         if (eventsQueue.Count > maxQueueSize)
         {
-            eventsQueue.Dequeue();
+            DequeEvent();
         }
     }
+
+
+    private void DequeEvent()
+    {
+        while (eventsQueue.Count > 0)
+        {
+            TrackerEvent evt = eventsQueue.Dequeue();
+            threadedEvent.AddEvent(evt.ToString());
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_END);
+        SendEvent(ev);
+        DequeEvent();
+        threadedEvent.OnDestroy();
+    }
+
 }
