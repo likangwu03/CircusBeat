@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         GameObject playIcon = GameObject.Find("Play Icon");
         if (playIcon != null)
         {
+            // TODO: evento inicio de nivel
             Button playButton = playIcon.GetComponent<Button>();
             playButton.onClick.AddListener(() => startGame());
         }
@@ -139,6 +140,7 @@ public class GameManager : MonoBehaviour
     {
         if (pLC.getLife() > 0)
         {
+            // TODO: evento fin de cancion / nivel completado
             startWin();
         }
     }
@@ -148,6 +150,7 @@ public class GameManager : MonoBehaviour
     {
         if(scene.name == "InGame 2")
         {
+            // TODO: evento inicio de canción
             speaker = SoundManager.Instance.GetComponent<AudioSource>();
             speaker.clip = mainAudio;
             stopMusic();
@@ -185,6 +188,7 @@ public class GameManager : MonoBehaviour
     }
     public void startGameOver()
     {
+        // TODO: evento muerte del jugador / nivel fallido
         CancelInvoke("winGame");
         //TODO Fin de nivel
         SceneManager.LoadScene("GameOver");

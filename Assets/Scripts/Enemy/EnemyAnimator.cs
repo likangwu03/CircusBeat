@@ -12,6 +12,7 @@ public class EnemyAnimator : MonoBehaviour
     #region methods
     public void at_B()
     {
+        // TODO: evento cambio de fase
         pAnimator.ResetTrigger("At_R");
         pAnimator.ResetTrigger("Idle");
         pAnimator.SetTrigger("At_B");
@@ -19,6 +20,7 @@ public class EnemyAnimator : MonoBehaviour
 
     public void at_R()
     {
+        // TODO: evento cambio de fase
         pAnimator.ResetTrigger("At_B");
         pAnimator.ResetTrigger("Idle");
         pAnimator.SetTrigger("At_R");
@@ -26,6 +28,7 @@ public class EnemyAnimator : MonoBehaviour
 
     public void e_Idle()
     {
+        // TODO: evento cambio de fase
         pAnimator.ResetTrigger("At_B");
         pAnimator.ResetTrigger("At_R");
         pAnimator.SetTrigger("Idle");
