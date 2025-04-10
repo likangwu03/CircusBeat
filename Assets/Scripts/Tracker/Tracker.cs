@@ -36,7 +36,7 @@ public class Tracker : MonoBehaviour
     {
         sessionId = Environment.MachineName + "_" + DateTimeOffset.Now.ToUnixTimeSeconds();
         eventsQueue = new Queue<TrackerEvent>();
-        threadedEvent = new ThreadedEventLogger();
+        threadedEvent = new ThreadedEventLogger(sessionId);
         threadedEvent.Start();
 
         //TestCreateEvent();
@@ -58,26 +58,20 @@ public class Tracker : MonoBehaviour
         eventsQueue.Enqueue(evt);
         if (eventsQueue.Count > maxQueueSize)
         {
-            DequeEvent();
+            threadedEvent.WriteEvent(eventsQueue);
+            eventsQueue.Clear();
         }
     }
 
 
-    private void DequeEvent()
-    {
-        while (eventsQueue.Count > 0)
-        {
-            TrackerEvent evt = eventsQueue.Dequeue();
-            threadedEvent.AddEvent(evt.ToString());
-        }
-    }
 
     private void OnApplicationQuit()
     {
         TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_END);
         SendEvent(ev);
-        DequeEvent();
-        threadedEvent.OnDestroy();
+        threadedEvent.WriteEvent(eventsQueue);
+        eventsQueue.Clear();
+        threadedEvent.Destroy();
     }
 
 }

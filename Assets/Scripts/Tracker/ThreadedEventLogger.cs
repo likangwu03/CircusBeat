@@ -3,15 +3,27 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ThreadedEventLogger
 {
-    private ConcurrentQueue<string> eventQueue = new ConcurrentQueue<string>();
+    private ConcurrentQueue<TrackerEvent> eventQueue;
     private Thread writerThread;
-    private bool isRunning = true;
-    private AutoResetEvent newEventSignal = new AutoResetEvent(false);
+    private bool isRunning;
+    //private AutoResetEvent newEventSignal;
+    StreamWriter writer;
+    private Mutex mut;
 
+    public ThreadedEventLogger(string sessionId)
+    {
+        eventQueue = new ConcurrentQueue<TrackerEvent>();
+        isRunning = false;
+        //newEventSignal = new AutoResetEvent(false);
+        string filePath = Path.Combine(Application.persistentDataPath, sessionId + ".json");
+        writer = new StreamWriter(filePath, true);
+        mut = new Mutex();
+    }
 
     public void Start()
     {
@@ -19,37 +31,38 @@ public class ThreadedEventLogger
         writerThread.Start();
     }
 
-    public void OnDestroy()
+    public void Destroy()
     {
         isRunning = false;
-        newEventSignal.Set();
+        mut.ReleaseMutex();
         writerThread.Join();
+        writer.Write("]");
+        writer.Close();
     }
 
-    public void AddEvent(string eventMessage)
+    public void WriteEvent(IEnumerable<TrackerEvent> events)
     {
-        eventQueue.Enqueue(eventMessage);
-        if (eventQueue.Count == 1)
+        foreach (TrackerEvent e in events)
         {
-            newEventSignal.Set();
+            eventQueue.Enqueue(e);
+
         }
+        mut.ReleaseMutex();
     }
 
     private void WriteToFile()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "events.txt");
         while (isRunning || !eventQueue.IsEmpty)
         {
-            if (eventQueue.TryDequeue(out string eventMessage))
+
+            if (eventQueue.TryDequeue(out TrackerEvent e))
             {
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine(eventMessage);
-                }
+                writer.Write(",");
+                writer.Write(JsonUtility.ToJson(e));
             }
             else
             {
-                newEventSignal.WaitOne();
+                mut.WaitOne();
             }
         }
     }
