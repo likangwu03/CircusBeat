@@ -52,6 +52,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         GameManager.Instance.startMenu();
+        //TODO Abandono del nivel
     }
 
 

@@ -48,18 +48,21 @@ public class PlayerMovementController : MonoBehaviour
                     InGround = false;
                     rigid.AddForce(new Vector2(0, jumpForce));
                     pAnimations.jump();
+                    //TODO Movimiento
                 }
             }
             if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
                 if (Lane < 4) {
                     pAnimations.dashDr();
                     Lane++;
+                    //TODO Movimiento
                 }
             }
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
                 if (Lane > 0) {
                     pAnimations.dashIz();
                     Lane--;
+                    //TODO Movimiento
                 }
             }
         }

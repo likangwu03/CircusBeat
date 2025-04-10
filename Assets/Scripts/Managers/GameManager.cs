@@ -186,11 +186,13 @@ public class GameManager : MonoBehaviour
     public void startGameOver()
     {
         CancelInvoke("winGame");
+        //TODO Fin de nivel
         SceneManager.LoadScene("GameOver");
     }
     public void startWin()
     {
         CancelInvoke("winGame");
+        //TODO Fin de nivel
         SceneManager.LoadScene("Win");
     }
     public void quit()

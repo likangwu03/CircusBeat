@@ -80,6 +80,7 @@ public class MapManager : MonoBehaviour
                 if (obstacles[j].timeInSeconds < GameManager.Instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
+                    //TODO Spawn de obstáculo tipo:obstacles[j].gameobject.name, carril: i
                     if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !first)
                     {
                         first = true;

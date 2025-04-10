@@ -42,6 +42,7 @@ public class PlayerLifeComponent : MonoBehaviour
     public void heal() { 
         if(currentLife < maxLife)
             currentLife += 1;
+        //TODO Recuperar vida
         text.text = currentLife.ToString();
     }
     public void restart() { currentLife = 3; }

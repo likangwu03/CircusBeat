@@ -35,6 +35,7 @@ public class Obstacle : MonoBehaviour
             GameManager.Instance.addScore(score);
             GameManager.Instance.addCombo(score);
             Destroy(gameObject);
+            //TODO Evasión de obstáculo (enviar gameobject.name como tipo de obstáculo (string))
         }
     }
 
@@ -47,6 +48,9 @@ public class Obstacle : MonoBehaviour
             GameManager.Instance.setCombo(0);
             GameManager.Instance.pLC.damage();
             Destroy(gameObject);
+
+            //TODO Colisión contra obstáculo (enviar gameobject.name como tipo de obstáculo (string))
+
         }
     }
 }
