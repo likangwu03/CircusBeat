@@ -1,41 +1,64 @@
 
+using System;
 using System.Collections.Generic;
+
+public enum TrackerEventType { TRACKER_EVENT_NONE = -1, SESSION_START, SESSION_END, TRACKER_EVENT_LAST };
+[Serializable]
+public class TrackerEvent
+{
+    public string SessionId = "";
+    public long Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+    public string EventName = "";
+    public ulong EventId = 0;
+}
 
 public class Tracker
 {
-    string sessionId;
-    uint maxQueueSize = 400;
-    Queue<TrackerEvent> eventsQueue;
-    private ThreadedEventLogger threadedEvent;
+    protected string sessionId;
+    protected uint maxQueueSize = 400;
+    protected Queue<TrackerEvent> eventsQueue;
+    protected private ThreadedEventLogger threadedEvent;
+    protected BasePersistence[] persistenceMethods;
 
-    public Tracker(string session, uint maxQueue)
+    protected ulong eventCounter;
+
+    public Tracker(string session, uint maxQueue, BasePersistence[] persistence)
     {
         sessionId = session;
         maxQueueSize = maxQueue;
 
+        persistenceMethods = persistence;
+
         eventsQueue = new Queue<TrackerEvent>();
-        threadedEvent = new ThreadedEventLogger(sessionId);
-        threadedEvent.Start();
+        //threadedEvent = new ThreadedEventLogger(sessionId);
+        //threadedEvent.Start();
+
+        eventCounter = 0;
     }
 
-    ~Tracker()
+    public void Close()
     {
-        UnityEngine.Debug.Log("socorro");
-        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_END);
-        SendEvent(ev);
-        threadedEvent.WriteEvent(eventsQueue);
-        threadedEvent.Destroy();
+        SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_END));
+        //threadedEvent.WriteEvent(eventsQueue);
+        //threadedEvent.Destroy();
         eventsQueue.Clear();
     }
 
     public void SendEvent(TrackerEvent evt)
     {
         eventsQueue.Enqueue(evt);
-        if (eventsQueue.Count > maxQueueSize)
-        {
-            threadedEvent.WriteEvent(eventsQueue);
-            eventsQueue.Clear();
-        }
+        //if (eventsQueue.Count > maxQueueSize)
+        //{
+        //    threadedEvent.WriteEvent(eventsQueue);
+        //    eventsQueue.Clear();
+        //}
     }
 
+
+    private TrackerEvent CreateTrackerEvent(TrackerEventType type)
+    {
+        TrackerEvent evt = new TrackerEvent { SessionId = sessionId, EventName = type.ToString(), EventId = eventCounter };
+        eventCounter++;
+        return evt;
+    }
 }

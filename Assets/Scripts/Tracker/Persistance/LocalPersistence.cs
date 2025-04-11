@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -6,31 +5,43 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public class JsonFilePersistence : IPersistence
+public class LocalPersistence : BasePersistence
 {
-
-    private ConcurrentQueue<TrackerEvent> eventQueue;
-    private Thread writerThread;
-    private bool isRunning;
-    StreamWriter writer;
-    private AutoResetEvent newEventSignal;
-    private ISerializer serializer;
+    protected bool isRunning;
     string filePath;
-    public JsonFilePersistence(string sessionId, ISerializer serializer)
+    StreamWriter writer;
+    protected AutoResetEvent newEventSignal;
+    protected Thread writerThread;
+
+    public LocalPersistence(string sessionId, ISerializer serializer) : base(sessionId, serializer)
     {
         eventQueue = new ConcurrentQueue<TrackerEvent>();
         isRunning = false;
-        filePath = Path.Combine(Application.persistentDataPath, sessionId + ".json");
+        filePath = Path.Combine(Application.persistentDataPath, sessionId + serializer.FileExtension);
         writer = new StreamWriter(filePath, true);
         newEventSignal = new AutoResetEvent(false);
         this.serializer = serializer;
     }
 
+    public override void SendEvent(TrackerEvent e)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void SendEvents(IEnumerable<TrackerEvent> events)
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void Flush()
+    {
+        newEventSignal.Set();
+    }
+
+
     public void Start()
     {
         writerThread = new Thread(WriteToFile);
         writerThread.Start();
-
     }
 
     public void Release()
@@ -82,23 +93,5 @@ public class JsonFilePersistence : IPersistence
             // Asegurar que el cierre se escriba en el archivo
             fileStream.Flush();
         }
-
     }
-
-
-
-    public void SendEvent(TrackerEvent e)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void SendEvents(IEnumerable<TrackerEvent> events)
-    {
-        throw new System.NotImplementedException();
-    }
-    public void Flush()
-    {
-        newEventSignal.Set();
-    }
-
 }
