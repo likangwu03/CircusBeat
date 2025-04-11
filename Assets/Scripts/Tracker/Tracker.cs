@@ -1,57 +1,32 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
-using UnityEngine;
 
-
-public class Tracker : MonoBehaviour
+public class Tracker
 {
-    public static Tracker Instance = null;
-
-
     string sessionId;
-    [SerializeField]
     uint maxQueueSize = 400;
     Queue<TrackerEvent> eventsQueue;
-
     private ThreadedEventLogger threadedEvent;
 
-    private void Awake()
+    public Tracker(string session, uint maxQueue)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
+        sessionId = session;
+        maxQueueSize = maxQueue;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        sessionId = Environment.MachineName + "_" + DateTimeOffset.Now.ToUnixTimeSeconds();
         eventsQueue = new Queue<TrackerEvent>();
         threadedEvent = new ThreadedEventLogger(sessionId);
         threadedEvent.Start();
-
-        //TestCreateEvent();
-        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_START);
-        //SendEvent(ev);
-        string tst = JsonUtility.ToJson(ev);
-        int aaa = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    ~Tracker()
     {
-
+        UnityEngine.Debug.Log("socorro");
+        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_END);
+        SendEvent(ev);
+        threadedEvent.WriteEvent(eventsQueue);
+        threadedEvent.Destroy();
+        eventsQueue.Clear();
     }
-
 
     public void SendEvent(TrackerEvent evt)
     {
@@ -61,17 +36,6 @@ public class Tracker : MonoBehaviour
             threadedEvent.WriteEvent(eventsQueue);
             eventsQueue.Clear();
         }
-    }
-
-
-
-    private void OnApplicationQuit()
-    {
-        TrackerEvent ev = new TrackerEvent(sessionId, (int)TrackerEventType.SESSION_END);
-        SendEvent(ev);
-        threadedEvent.WriteEvent(eventsQueue);
-        eventsQueue.Clear();
-        threadedEvent.Destroy();
     }
 
 }

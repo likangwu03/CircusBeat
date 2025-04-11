@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2079484851925900567}
   - component: {fileID: 4593538996263248714}
+  - component: {fileID: 702315893580929329}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,3 +47,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainAudio: {fileID: 8300000, guid: e74fd61b7f21e4b4bbe13cb137aeb37c, type: 3}
   streak: 10
+--- !u!114 &702315893580929329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232105495574216582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2dccbdd900ba68479aa8cf3627b0aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxQueueSize: 10
