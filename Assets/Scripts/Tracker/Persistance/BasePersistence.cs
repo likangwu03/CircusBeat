@@ -15,4 +15,6 @@ public class BasePersistence : IPersistence
     public virtual void SendEvent(TrackerEvent e) { }
     public virtual void SendEvents(IEnumerable<TrackerEvent> events) { }
     public virtual void Flush() { }
+    public virtual void Start() { }
+    public virtual void Release() { }
 }

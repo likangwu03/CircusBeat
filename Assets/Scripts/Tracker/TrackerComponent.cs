@@ -7,12 +7,12 @@ public class TrackerComponent : MonoBehaviour
 {
     public static TrackerComponent Instance = null;
 
-    GameTracker tracker;
+    protected GameTracker tracker;
 
     [SerializeField]
-    uint maxQueueSize = 400;
+    protected uint maxQueueSize = 400;
 
-
+    //TODO: si no existe BINARY, quitarlo
     enum SerializeMethods { JSON, XML, BINARY };
     [SerializeField]
     SerializeMethods serializeMethod;
@@ -43,13 +43,14 @@ public class TrackerComponent : MonoBehaviour
         };
 
         tracker = new GameTracker(sessionId, maxQueueSize, persistenceMethods);
+        tracker.SetPersistence((uint)serializeMethod);
+        tracker.Open();
 
-
-        XMLSerializer asda = new XMLSerializer();
-        JsonSerializer oooo = new JsonSerializer();
-        string huh = asda.Serialize(tracker.CreateGameEvent(GameEventType.LEVEL_START));
-        string bro = oooo.Serialize(tracker.CreateGameEvent(GameEventType.LEVEL_END));
-        int das = 0;
+        //XMLSerializer asda = new XMLSerializer();
+        //JsonSerializer oooo = new JsonSerializer();
+        //string huh = asda.Serialize(tracker.CreateGameEvent(GameEventType.LEVEL_START));
+        //string bro = oooo.Serialize(tracker.CreateGameEvent(GameEventType.LEVEL_END));
+        //int das = 0;
     }
 
     // Start is called before the first frame update
@@ -68,7 +69,7 @@ public class TrackerComponent : MonoBehaviour
     {
         tracker.Close();
     }
-    void SendEvent(TrackerEvent evt)
+    public void SendEvent(TrackerEvent evt)
     {
         tracker.SendEvent(evt);
     }

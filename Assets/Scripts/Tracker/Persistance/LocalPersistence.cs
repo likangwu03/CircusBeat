@@ -15,10 +15,8 @@ public class LocalPersistence : BasePersistence
 
     public LocalPersistence(string sessionId, ISerializer serializer) : base(sessionId, serializer)
     {
-        eventQueue = new ConcurrentQueue<TrackerEvent>();
         isRunning = false;
         filePath = Path.Combine(Application.persistentDataPath, sessionId + serializer.FileExtension);       
-        this.serializer = serializer;
     }
 
     public override void SendEvent(TrackerEvent e)
@@ -36,13 +34,14 @@ public class LocalPersistence : BasePersistence
         Flush();
 
     }
+
     public override void Flush()
     {
         newEventSignal.Set();
     }
 
 
-    public void Start()
+    public override void Start()
     {
         isRunning = true;
         writer = new StreamWriter(filePath, true);
@@ -51,7 +50,7 @@ public class LocalPersistence : BasePersistence
         writerThread.Start();
     }
 
-    public void Release()
+    public override void Release()
     {
         Flush();
         isRunning = false;
@@ -63,7 +62,7 @@ public class LocalPersistence : BasePersistence
     {
         writer.Write(serializer.Opener);
 
-        while (isRunning || !eventQueue.IsEmpty)
+        while (isRunning)
         {
             newEventSignal.WaitOne();
             while (eventQueue.Count > 1)
@@ -74,6 +73,7 @@ public class LocalPersistence : BasePersistence
                     writer.Write(serializer.Separator);
                 }
             }
+            writer.Flush();
         }
 
         if (eventQueue.TryDequeue(out TrackerEvent last_event))

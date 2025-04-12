@@ -7,12 +7,10 @@ public class GameTracker : Tracker
 {
 
     [Serializable]
-    private class GameEvent : TrackerEvent { }
+    public class GameEvent : TrackerEvent { }
 
     [Serializable]
-    private class SongEndEvent : GameEvent { }
-
-    
+    public class SongEndEvent : GameEvent { }
 
     public GameTracker(string session, uint maxQueue, BasePersistence[] persistence) : base(session,maxQueue,persistence) { }
 

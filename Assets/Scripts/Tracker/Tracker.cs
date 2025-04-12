@@ -18,7 +18,7 @@ public class Tracker
     protected uint maxQueueSize;
     protected Queue<TrackerEvent> eventsQueue;
     protected BasePersistence[] persistenceMethods;
-
+    protected uint selectPersistence;
     protected ulong eventCounter;
 
     public Tracker(string session, uint maxQueue, BasePersistence[] persistence)
@@ -27,16 +27,28 @@ public class Tracker
         maxQueueSize = maxQueue;
 
         persistenceMethods = persistence;
+        selectPersistence = 0;
 
         eventsQueue = new Queue<TrackerEvent>();
-     
 
         eventCounter = 0;
+    }
+
+    public void SetPersistence(uint n)
+    {
+        selectPersistence = n;
+    }
+
+    public void Open()
+    {
+        persistenceMethods[selectPersistence].Start();
+        SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_START));
     }
 
     public void Close()
     {
         SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_END), false);
+        persistenceMethods[selectPersistence].Release();
     }
 
     public void SendEvent(TrackerEvent evt, bool delay = true)
@@ -44,8 +56,7 @@ public class Tracker
         eventsQueue.Enqueue(evt);
         if (eventsQueue.Count > maxQueueSize || !delay)
         {
-            //TODO aqui hay un 0 
-            persistenceMethods[0].SendEvents(eventsQueue);
+            persistenceMethods[selectPersistence].SendEvents(eventsQueue);
             eventsQueue.Clear();
         }
     }
