@@ -17,20 +17,24 @@ public class LocalPersistence : BasePersistence
     {
         eventQueue = new ConcurrentQueue<TrackerEvent>();
         isRunning = false;
-        filePath = Path.Combine(Application.persistentDataPath, sessionId + serializer.FileExtension);
-        writer = new StreamWriter(filePath, true);
-        newEventSignal = new AutoResetEvent(false);
+        filePath = Path.Combine(Application.persistentDataPath, sessionId + serializer.FileExtension);       
         this.serializer = serializer;
     }
 
     public override void SendEvent(TrackerEvent e)
     {
-        throw new System.NotImplementedException();
+        eventQueue.Enqueue(e);
+        Flush();
     }
 
     public override void SendEvents(IEnumerable<TrackerEvent> events)
     {
-        throw new System.NotImplementedException();
+        foreach (TrackerEvent e in events)
+        {
+            eventQueue.Enqueue(e);
+        }
+        Flush();
+
     }
     public override void Flush()
     {
@@ -40,6 +44,9 @@ public class LocalPersistence : BasePersistence
 
     public void Start()
     {
+        isRunning = true;
+        writer = new StreamWriter(filePath, true);
+        newEventSignal = new AutoResetEvent(false);
         writerThread = new Thread(WriteToFile);
         writerThread.Start();
     }
@@ -50,48 +57,31 @@ public class LocalPersistence : BasePersistence
         isRunning = false;
         writerThread.Join();
         writer.Close();
-
     }
 
     private void WriteToFile()
     {
-        writer.Write("[");
+        writer.Write(serializer.Opener);
+
         while (isRunning || !eventQueue.IsEmpty)
         {
             newEventSignal.WaitOne();
-            while (eventQueue.Count > 0)
+            while (eventQueue.Count > 1)
             {
                 if (eventQueue.TryDequeue(out TrackerEvent e))
                 {
                     writer.Write(serializer.Serialize(e));
-                    writer.Write(",");
+                    writer.Write(serializer.Separator);
                 }
             }
         }
-        writer.Flush();
-        CloseFile();
-    }
 
-
-    private void CloseFile()
-    {
-        using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
+        if (eventQueue.TryDequeue(out TrackerEvent last_event))
         {
-            fileStream.Flush();
-            fileStream.Seek(-1, SeekOrigin.End);
-            int lastByte = fileStream.ReadByte();
-
-            if (lastByte == (byte)',')
-            {
-                fileStream.SetLength(fileStream.Length - 1);
-            }
-
-            // Agregar el cierre del array JSON
-            byte[] endArray = Encoding.UTF8.GetBytes("]");
-            fileStream.Write(endArray, 0, endArray.Length);
-
-            // Asegurar que el cierre se escriba en el archivo
-            fileStream.Flush();
+            writer.Write(serializer.Serialize(last_event));
         }
+
+        writer.Write(serializer.Closer);
+        writer.Flush();
     }
 }
