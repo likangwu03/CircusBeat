@@ -15,9 +15,8 @@ public class TrackerEvent
 public class Tracker
 {
     protected string sessionId;
-    protected uint maxQueueSize = 400;
+    protected uint maxQueueSize;
     protected Queue<TrackerEvent> eventsQueue;
-    protected private ThreadedEventLogger threadedEvent;
     protected BasePersistence[] persistenceMethods;
 
     protected ulong eventCounter;
@@ -30,30 +29,26 @@ public class Tracker
         persistenceMethods = persistence;
 
         eventsQueue = new Queue<TrackerEvent>();
-        //threadedEvent = new ThreadedEventLogger(sessionId);
-        //threadedEvent.Start();
+     
 
         eventCounter = 0;
     }
 
     public void Close()
     {
-        SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_END));
-        //threadedEvent.WriteEvent(eventsQueue);
-        //threadedEvent.Destroy();
-        eventsQueue.Clear();
+        SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_END), false);
     }
 
-    public void SendEvent(TrackerEvent evt)
+    public void SendEvent(TrackerEvent evt, bool delay = true)
     {
         eventsQueue.Enqueue(evt);
-        //if (eventsQueue.Count > maxQueueSize)
-        //{
-        //    threadedEvent.WriteEvent(eventsQueue);
-        //    eventsQueue.Clear();
-        //}
+        if (eventsQueue.Count > maxQueueSize || !delay)
+        {
+            //TODO aqui hay un 0 
+            persistenceMethods[0].SendEvents(eventsQueue);
+            eventsQueue.Clear();
+        }
     }
-
 
     private TrackerEvent CreateTrackerEvent(TrackerEventType type)
     {
