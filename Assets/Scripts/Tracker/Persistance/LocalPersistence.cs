@@ -19,6 +19,25 @@ public class LocalPersistence : BasePersistence
         filePath = Path.Combine(Application.persistentDataPath, sessionId + serializer.FileExtension);       
     }
 
+
+    public override void Start()
+    {
+        isRunning = true;
+        writer = new StreamWriter(filePath, true);
+        newEventSignal = new AutoResetEvent(false);
+        writerThread = new Thread(WriteToFile);
+        writerThread.Start();
+    }
+
+    public override void Release()
+    {
+        Flush();
+        isRunning = false;
+        writerThread.Join();
+        writer.Close();
+    }
+
+
     public override void SendEvent(TrackerEvent e)
     {
         eventQueue.Enqueue(e);
@@ -38,24 +57,6 @@ public class LocalPersistence : BasePersistence
     public override void Flush()
     {
         newEventSignal.Set();
-    }
-
-
-    public override void Start()
-    {
-        isRunning = true;
-        writer = new StreamWriter(filePath, true);
-        newEventSignal = new AutoResetEvent(false);
-        writerThread = new Thread(WriteToFile);
-        writerThread.Start();
-    }
-
-    public override void Release()
-    {
-        Flush();
-        isRunning = false;
-        writerThread.Join();
-        writer.Close();
     }
 
     private void WriteToFile()

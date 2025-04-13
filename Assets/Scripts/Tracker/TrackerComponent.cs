@@ -7,15 +7,8 @@ public class TrackerComponent : MonoBehaviour
 {
     public static TrackerComponent Instance = null;
 
-    protected GameTracker tracker;
+    GameTracker tracker;
 
-    [SerializeField]
-    protected uint maxQueueSize = 400;
-
-    //TODO: si no existe BINARY, quitarlo
-    enum SerializeMethods { JSON, XML, BINARY };
-    [SerializeField]
-    SerializeMethods serializeMethod;
 
     private void Awake()
     {
@@ -36,22 +29,34 @@ public class TrackerComponent : MonoBehaviour
     public void CreateAndConfigureTracker()
     {
         string sessionId = Environment.MachineName + "_" + DateTimeOffset.Now.ToUnixTimeSeconds();
+
+        JsonSerializer json = new JsonSerializer();
+        XMLSerializer xml = new XMLSerializer();
+
         BasePersistence[] persistenceMethods =
         {
-            new LocalPersistence(sessionId, new JsonSerializer()),
-            new LocalPersistence(sessionId, new XMLSerializer())
+            new LocalPersistence(sessionId, json),
+            //new LocalPersistence(sessionId, xml)
+
+            // Para anadir otro metodo de serializacion habria que hacer hacer lo mismo:
+            // crear una instancia del serializador del formato deseado y crear un nuevo
+            // persistidor pasandole dicha instancia
+
+            // Para anadir otro metodo de persistencia
+            //new RemotePersistence(sessionId, json)    --> Si se implementara la persistencia en remoto
         };
 
+        uint maxQueueSize = 400;
+
         tracker = new GameTracker(sessionId, maxQueueSize, persistenceMethods);
-        tracker.SetPersistence((uint)serializeMethod);
         tracker.Open();
 
-        //XMLSerializer asda = new XMLSerializer();
-        //JsonSerializer oooo = new JsonSerializer();
-        //string huh = asda.Serialize(tracker.CreateGameEvent(GameEventType.LEVEL_START));
-        //string bro = oooo.Serialize(tracker.CreateGameEvent(GameEventType.LEVEL_END));
-        //int das = 0;
+
+        //string evt1 = xml.Serialize(tracker.CreateGenericGameEvent(GameEventType.LEVEL_START));
+        //string evt2 = xml.Serialize(tracker.CreateSongEndEvent(100, 12));
+        //int a = 0;
     }
+
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +74,7 @@ public class TrackerComponent : MonoBehaviour
     {
         tracker.Close();
     }
+
     public void SendEvent(TrackerEvent evt)
     {
         tracker.SendEvent(evt);

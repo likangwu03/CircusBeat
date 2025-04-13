@@ -1,54 +1,78 @@
-
 using System;
 using System.Collections.Generic;
 
-public enum TrackerEventType { TRACKER_EVENT_NONE = -1, SESSION_START, SESSION_END, TRACKER_EVENT_LAST };
+public enum TrackerEventType
+{
+    NONE = -1,
+    SESSION_START,
+    SESSION_END,
+    TRACKER_EVENT_LAST      // No se usa; es para saber a partir de que numero empiezan los eventos del juego
+};
+
+
 [Serializable]
 public class TrackerEvent
 {
-    public string SessionId = "";
-    public long Timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-    public string EventName = "";
-    public ulong EventId = 0;
+    public string sessionId = "";
+    public long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+    public int eventType = (int)TrackerEventType.NONE;
+    public string eventName = "";
+    public ulong eventId = 0;
+
+    // IMPORTANTE: PARA QUE LA SERIALIZACION EN XML FUNCIONE, ES NECESARIO QUE
+    // TODOS LOS EVENTOS Y SUS CLASES HIJAS TENGAN CONSTRUCTORA SIN PARAMETROS
+    public TrackerEvent() { }
+    public TrackerEvent(string session, TrackerEventType type, ref ulong counter)
+    {
+        sessionId = session;
+        timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+        eventType = (int)type;
+        eventName = type.ToString();
+        eventId = counter;
+
+        counter++;
+    }
 }
+
 
 public class Tracker
 {
     protected string sessionId;
-    protected uint maxQueueSize;
+
     protected Queue<TrackerEvent> eventsQueue;
-    protected BasePersistence[] persistenceMethods;
-    protected uint selectPersistence;
+    protected uint maxQueueSize;
     protected ulong eventCounter;
+
+    protected BasePersistence[] persistenceMethods;
 
     public Tracker(string session, uint maxQueue, BasePersistence[] persistence)
     {
         sessionId = session;
-        maxQueueSize = maxQueue;
-
-        persistenceMethods = persistence;
-        selectPersistence = 0;
 
         eventsQueue = new Queue<TrackerEvent>();
-
+        maxQueueSize = maxQueue;
         eventCounter = 0;
+
+        persistenceMethods = persistence;
     }
 
-    public void SetPersistence(uint n)
-    {
-        selectPersistence = n;
-    }
 
     public void Open()
     {
-        persistenceMethods[selectPersistence].Start();
-        SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_START));
+        foreach (BasePersistence method in persistenceMethods)
+        {
+            method.Start();
+        }
+        SendEvent(CreateGenericTrackerEvent(TrackerEventType.SESSION_START));
     }
 
     public void Close()
     {
-        SendEvent(CreateTrackerEvent(TrackerEventType.SESSION_END), false);
-        persistenceMethods[selectPersistence].Release();
+        SendEvent(CreateGenericTrackerEvent(TrackerEventType.SESSION_END), false);
+        foreach (BasePersistence method in persistenceMethods)
+        {
+            method.Release();
+        }
     }
 
     public void SendEvent(TrackerEvent evt, bool delay = true)
@@ -56,15 +80,16 @@ public class Tracker
         eventsQueue.Enqueue(evt);
         if (eventsQueue.Count > maxQueueSize || !delay)
         {
-            persistenceMethods[selectPersistence].SendEvents(eventsQueue);
+            foreach (BasePersistence method in persistenceMethods)
+            {
+                method.SendEvents(eventsQueue);
+            }
             eventsQueue.Clear();
         }
     }
 
-    private TrackerEvent CreateTrackerEvent(TrackerEventType type)
+    protected TrackerEvent CreateGenericTrackerEvent(TrackerEventType type)
     {
-        TrackerEvent evt = new TrackerEvent { SessionId = sessionId, EventName = type.ToString(), EventId = eventCounter };
-        eventCounter++;
-        return evt;
+        return new TrackerEvent(sessionId, type, ref eventCounter);
     }
 }

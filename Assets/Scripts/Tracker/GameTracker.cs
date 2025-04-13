@@ -1,23 +1,15 @@
-﻿
-using System;
-
-public enum GameEventType { LEVEL_START = TrackerEventType.TRACKER_EVENT_LAST, LEVEL_END };
-
-public class GameTracker : Tracker
+﻿public class GameTracker : Tracker
 {
+    public GameTracker(string session, uint maxQueue, BasePersistence[] persistence) : base(session, maxQueue, persistence) { }
 
-    [Serializable]
-    public class GameEvent : TrackerEvent { }
 
-    [Serializable]
-    public class SongEndEvent : GameEvent { }
-
-    public GameTracker(string session, uint maxQueue, BasePersistence[] persistence) : base(session,maxQueue,persistence) { }
-
-    public TrackerEvent CreateGameEvent(GameEventType type)
+    public TrackerEvent CreateGenericGameEvent(GameEventType type)
     {
-        GameEvent evt = new GameEvent { SessionId = sessionId, EventName = type.ToString(), EventId = eventCounter };
-        eventCounter++;
-        return evt;
+        return new GameEvent(sessionId, type, ref eventCounter);
+    }
+
+    public TrackerEvent CreateSongEndEvent(int score, int secondsPlayed)
+    {
+        return new SongEndEvent(sessionId, GameEventType.SONG_END, ref eventCounter, score, secondsPlayed);
     }
 }
