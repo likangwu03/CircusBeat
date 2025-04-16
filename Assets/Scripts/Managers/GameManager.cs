@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
         GameObject playIcon = GameObject.Find("Play Icon");
         if (playIcon != null)
         {
-            // TODO: evento inicio de nivel
             Button playButton = playIcon.GetComponent<Button>();
             playButton.onClick.AddListener(() => startGame());
         }
@@ -140,8 +139,9 @@ public class GameManager : MonoBehaviour
     {
         if (pLC.getLife() > 0)
         {
-            // TODO: evento fin de cancion / nivel completado
             startWin();
+
+           
         }
     }
 
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
     {
         if(scene.name == "InGame 2")
         {
-            // TODO: evento inicio de canción
+          
             speaker = SoundManager.Instance.GetComponent<AudioSource>();
             speaker.clip = mainAudio;
             stopMusic();
@@ -178,6 +178,9 @@ public class GameManager : MonoBehaviour
     }
     public void startGame()
     {
+        //TRACKER EVENT Inicio de nivel
+        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_START));
+
         CancelInvoke("winGame");
         SceneManager.LoadScene("InGame 2");
     }
@@ -188,15 +191,26 @@ public class GameManager : MonoBehaviour
     }
     public void startGameOver()
     {
-        // TODO: evento muerte del jugador / nivel fallido
         CancelInvoke("winGame");
-        //TODO Fin de nivel
+
+        //TRACKER EVENT evento muerte del jugador / nivel fallido
+        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreatePlayerDeathEvent(score,(int)musicTime()));
+
+        //TRACKER EVENT Fin de nivel
+        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
+
         SceneManager.LoadScene("GameOver");
     }
     public void startWin()
     {
         CancelInvoke("winGame");
-        //TODO Fin de nivel
+
+        //TRACKER EVENT Fin de canción/nivel completado
+        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateSongEndEvent(score, (int)musicTime()));
+
+        //TRACKER EVENT Fin de nivel
+        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
+
         SceneManager.LoadScene("Win");
     }
     public void quit()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ObstacleEvent;
 
 // class --> referencia
 // struct --> instancia
@@ -80,7 +81,10 @@ public class MapManager : MonoBehaviour
                 if (obstacles[j].timeInSeconds < GameManager.Instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
-                    //TODO Spawn de obstáculo tipo:obstacles[j].gameobject.name, carril: i
+
+                    //TRACKER EVENT  Spawn de obstáculo
+                    TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateObstacleEvent(obstacles[j].gameobject.name, i, ObstacleEvent.ObstacleAction.SPAWN));
+
                     if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !first)
                     {
                         first = true;
@@ -96,16 +100,16 @@ public class MapManager : MonoBehaviour
                     {
                         Destroy(obstacleObject);
                     }
-                    
+
                     if (GameManager.Instance.musicTime() > 80)
-                    {         
+                    {
                         eAnimations.e_Idle();
                     }
                     else if (GameManager.Instance.musicTime() > 63)
                     {
                         eAnimations.at_B();
                     }
-                    else if(GameManager.Instance.musicTime() > 39.45)
+                    else if (GameManager.Instance.musicTime() > 39.45)
                     {
                         eAnimations.at_R();
                     }

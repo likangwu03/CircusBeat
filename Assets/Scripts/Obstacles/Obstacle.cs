@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,13 @@ public class Obstacle : MonoBehaviour
 {
     private Transform trans;
     bool col = false;
+    private int track=-1;
 
     [SerializeField]
     private float speed = 3.5f;
     [SerializeField]
     private int score = 1;
+
 
     public Vector3 targetPos { private get; set; }
 
@@ -19,6 +22,7 @@ public class Obstacle : MonoBehaviour
         trans = GetComponent<Transform>();
     }
 
+    public void SetTrack(int tr) { track = tr; }
     private void Update()
     {
         // Move our position a step closer to the target.
@@ -34,8 +38,11 @@ public class Obstacle : MonoBehaviour
         {
             GameManager.Instance.addScore(score);
             GameManager.Instance.addCombo(score);
+
+            //TRACKER EVENT  Evasión de obstáculo
+            TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.EVASION));
+
             Destroy(gameObject);
-            //TODO Evasión de obstáculo (enviar gameobject.name como tipo de obstáculo (string))
         }
     }
 
@@ -47,10 +54,11 @@ public class Obstacle : MonoBehaviour
             col = true;
             GameManager.Instance.setCombo(0);
             GameManager.Instance.pLC.damage();
+
+            //TRACKER EVENT  Evasión de obstáculo
+            TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.COLLISION));
+
             Destroy(gameObject);
-
-            //TODO Colisión contra obstáculo (enviar gameobject.name como tipo de obstáculo (string))
-
         }
     }
 }

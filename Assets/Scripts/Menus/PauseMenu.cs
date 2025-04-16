@@ -52,7 +52,9 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         GameManager.Instance.startMenu();
-        //TODO Abandono del nivel
+        //TRACKER EVENT Abandono del nivel
+        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_QUIT));
+
     }
 
 
@@ -81,6 +83,10 @@ public class PauseMenu : MonoBehaviour
                 _countdown.SetActive(false);
                 exiting = false;
                 Time.timeScale = 1;
+
+                //TRACKER EVENT inicio de canción
+                TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.SONG_START));
+
                 GameManager.Instance.playMusic();
             }
         }

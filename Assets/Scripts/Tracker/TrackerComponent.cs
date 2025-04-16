@@ -9,6 +9,7 @@ public class TrackerComponent : MonoBehaviour
 
     GameTracker tracker;
 
+    public GameTracker Tracker { get => tracker; set => tracker = value; }
 
     private void Awake()
     {

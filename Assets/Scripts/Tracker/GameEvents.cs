@@ -45,14 +45,17 @@ public class SongEndEvent : GameEvent
 [Serializable]
 public class PlayerDeathEvent : GameEvent
 {
+    public int score = 0;
     public int secondsPlayed = 0;
 
     public PlayerDeathEvent() : base() { }
-    public PlayerDeathEvent(string session, GameEventType type, ref ulong counter, int playTime) : base(session, type, ref counter)
+    public PlayerDeathEvent(string session, GameEventType type, ref ulong counter, int finalScore, int playTime) : base(session, type, ref counter)
     {
+        score = finalScore;
         secondsPlayed = playTime;
     }
 }
+
 
 [Serializable]
 public class PhaseChangeEvent : GameEvent
@@ -69,15 +72,25 @@ public class PhaseChangeEvent : GameEvent
 [Serializable]
 public class ObstacleEvent : GameEvent
 {
-    public enum ObstacleType { NONE, PIN, BALL, BUNNY, RING };
-    public int obstacle = (int)ObstacleType.NONE;
+    public enum ObstacleAction { NONE, SPAWN, EVASION, COLLISION };
+
+    public string obstacle = " ";
+    public string action = " ";
     public int track = 0;
 
     public ObstacleEvent() : base() { }
-    public ObstacleEvent(string session, GameEventType type, ref ulong counter, ObstacleType obs, int tr) : base(session, type, ref counter)
+    public ObstacleEvent(string session, GameEventType type, ref ulong counter, string obs, int tr, ObstacleAction act) : base(session, type, ref counter)
     {
-        obstacle = (int)obs;
+        obstacle =obs;
         track = tr;
+
+        switch (act)
+        {
+            case ObstacleAction.EVASION: action = "Evasion"; break;
+            case ObstacleAction.SPAWN: action = "Spawn"; break;
+            case ObstacleAction.COLLISION: action = "Collision"; break;
+            default: break;
+        }
     }
 }
 

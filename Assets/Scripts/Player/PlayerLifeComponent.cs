@@ -41,9 +41,15 @@ public class PlayerLifeComponent : MonoBehaviour
     public int getLife() { return currentLife; }
     public void heal() { 
         if(currentLife < maxLife)
+        {
             currentLife += 1;
-        //TODO Recuperar vida
-        text.text = currentLife.ToString();
+
+            //TRACKER EVENT  Recuperar vida
+            TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.RECOVER_HEALTH));
+
+            text.text = currentLife.ToString();
+
+        }
     }
     public void restart() { currentLife = 3; }
     #endregion
