@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 public enum TrackerEventType
 {
-    NONE = -1,
+    IGNORE_ALL = -2,
+    NULL = -1,
     SESSION_START,
     SESSION_END,
     TRACKER_EVENT_LAST      // No se usa; es para saber a partir de que numero empiezan los eventos del juego
 };
+
 
 public interface ITrackerEvent
 {
@@ -19,7 +21,7 @@ public class TrackerEvent : ITrackerEvent
 {
     public string sessionId = "";
     public long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-    public int eventType = (int)TrackerEventType.NONE;
+    public int eventType = (int)TrackerEventType.NULL;
     public string eventName = "";
     public ulong eventId = 0;
 
@@ -43,18 +45,20 @@ public class TrackerEvent : ITrackerEvent
     }
 }
 
-
 public class Tracker
 {
+    public const int IGNORE_ALL_EVENTS = (int)TrackerEventType.NULL - 1;
+
     protected string sessionId;
 
     protected Queue<TrackerEvent> eventsQueue;
     protected uint maxQueueSize;
     protected ulong eventCounter;
 
-    protected BasePersistence[] persistenceMethods;
+    protected HashSet<BasePersistence> persistenceMethods = new HashSet<BasePersistence>();
+    protected HashSet<int> ignoredEvents = new HashSet<int>();
 
-    public Tracker(string session, uint maxQueue, BasePersistence[] persistence)
+    public Tracker(string session, uint maxQueue, HashSet<BasePersistence> persistence, HashSet<int> eventsToIgnore)
     {
         sessionId = session;
 
@@ -63,11 +67,18 @@ public class Tracker
         eventCounter = 0;
 
         persistenceMethods = persistence;
+        ignoredEvents = eventsToIgnore;
     }
 
 
     public void Open()
     {
+        // Si se van a ignorar todos los eventos, no se hace nada
+        if (ignoredEvents.Contains(IGNORE_ALL_EVENTS))
+        {
+            return;
+        }
+
         foreach (BasePersistence method in persistenceMethods)
         {
             method.Start();
@@ -77,6 +88,12 @@ public class Tracker
 
     public void Close()
     {
+        // Si se van a ignorar todos los eventos, no se hace nada
+        if (ignoredEvents.Contains(IGNORE_ALL_EVENTS))
+        {
+            return;
+        }
+
         SendEvent(CreateGenericTrackerEvent(TrackerEventType.SESSION_END), false);
         foreach (BasePersistence method in persistenceMethods)
         {
@@ -86,12 +103,23 @@ public class Tracker
 
     public void SendEvent(TrackerEvent evt, bool delay = true)
     {
-        eventsQueue.Enqueue(evt);
+        // Si se van a ignorar todos los eventos, no se hace nada
+        if (ignoredEvents.Contains(IGNORE_ALL_EVENTS))
+        {
+            return;
+        }
+        // Si no se va a ignorar el tipo del evento, se mete a la cola
+        else if (!ignoredEvents.Contains(evt.eventType))
+        {
+            eventsQueue.Enqueue(evt);
+        }
+
         if (eventsQueue.Count > maxQueueSize || !delay)
         {
             foreach (BasePersistence method in persistenceMethods)
             {
                 method.SendEvents(eventsQueue);
+
             }
             eventsQueue.Clear();
         }

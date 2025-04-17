@@ -43,7 +43,7 @@ public class Obstacle : MonoBehaviour
             // TRACKER EVENT Evasión de obstáculo
             if (trackerComp != null && trackerComp.Tracker != null)
             {
-                trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.EVASION));
+                trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(gameObject.name, track, GameTracker.ObstacleAction.DODGE));
             }
 
             Destroy(gameObject);
@@ -62,7 +62,7 @@ public class Obstacle : MonoBehaviour
             // TRACKER EVENT Evasión de obstáculo
             if (trackerComp != null && trackerComp.Tracker != null)
             {
-                trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.COLLISION));
+                trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(gameObject.name, track, GameTracker.ObstacleAction.COLLISION));
             }
 
             Destroy(gameObject);

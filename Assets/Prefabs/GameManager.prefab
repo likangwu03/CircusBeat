@@ -59,4 +59,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2dccbdd900ba68479aa8cf3627b0aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxQueueSize: 10
+  active: 1
+  maxQueueSize: 100
+  persistenceSettings:
+  - serialization: 0
+    persistence: 00000000
+  - serialization: 1
+    persistence: 00000000
+  eventsToIgnore: 

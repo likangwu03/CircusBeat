@@ -509,8 +509,64 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[4]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[5]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[6]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[7]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[8]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[9]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[10]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[11]
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[12]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: eventsToIgnore.Array.data[13]
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: gameEventsToIgnore.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
       propertyPath: persistenceMethods.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: gameEventsToIgnore.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: gameEventsToIgnore.Array.data[1]
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
       propertyPath: persistenceMethods.Array.data[0]
@@ -519,6 +575,26 @@ PrefabInstance:
     - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
       propertyPath: persistenceMethods.Array.data[1]
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: trackerEventsToIgnore.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: trackerEventsToIgnore.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: trackerEventsToIgnore.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: persistenceSettings.Array.data[2].serialization
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 702315893580929329, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
+      propertyPath: persistenceSettings.Array.data[2].persistence.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1232105495574216582, guid: 6625076a58cfb234d84ff2007fded00e, type: 3}
       propertyPath: m_Name

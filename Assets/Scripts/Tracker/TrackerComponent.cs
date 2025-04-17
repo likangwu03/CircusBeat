@@ -1,13 +1,57 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
 public class TrackerComponent : MonoBehaviour
 {
     public static TrackerComponent Instance = null;
-
     public GameTracker Tracker { get; private set; }
+
+    [SerializeField]
+    bool active = true;
+
+    [SerializeField]
+    uint maxQueueSize = 100;
+
+    // Configuracion de serializacion y persistencia
+    public enum SerializationTypes { JSON, XML, /* BINARY, CSV, ... */ }
+    public enum PersistenceTypes { LOCAL, /* REMOTE, ... */}
+
+    [Serializable]
+    public class PersistenceSettings
+    {
+        public SerializationTypes serialization;
+        public List<PersistenceTypes> persistence = new List<PersistenceTypes>();
+    }
+    
+    [SerializeField]
+    List<PersistenceSettings> persistenceSettings = new List<PersistenceSettings>();
+
+
+    // Configuracion de eventos
+    enum AllEventTypes {
+        IGNORE_ALL = TrackerEventType.IGNORE_ALL,
+        SESSION_START = TrackerEventType.SESSION_START,
+        SESSION_END = TrackerEventType.SESSION_END,
+
+        LEVEL_START = GameEventType.LEVEL_START,
+        SONG_START = GameEventType.SONG_START,
+        SONG_END = GameEventType.SONG_END,
+        PLAYER_DEATH = GameEventType.PLAYER_DEATH,
+        LEVEL_END = GameEventType.LEVEL_END,
+        LEVEL_QUIT = GameEventType.LEVEL_QUIT,
+        PHASE_CHANGE = GameEventType.PHASE_CHANGE,
+        OBSTACLE_SPAWN = GameEventType.OBSTACLE_SPAWN,
+        OBSTACLE_COLLISION = GameEventType.OBSTACLE_COLLISION,
+        OBSTACLE_DODGE = GameEventType.OBSTACLE_DODGE,
+        RECOVER_HEALTH = GameEventType.RECOVER_HEALTH,
+        PLAYER_MOVEMENT = GameEventType.PLAYER_MOVEMENT
+    };
+
+    [SerializeField]
+    List<AllEventTypes> eventsToIgnore = new List<AllEventTypes>();
 
 
     private void Awake()
@@ -17,7 +61,10 @@ public class TrackerComponent : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            CreateAndConfigureTracker();
+            if (active)
+            {
+                CreateAndConfigureTracker();
+            }
         }
         else
         {
@@ -25,42 +72,96 @@ public class TrackerComponent : MonoBehaviour
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        if (Tracker != null)
+        {
+            Tracker.Close();
+        }
+    }
+
 
     public void CreateAndConfigureTracker()
     {
         string sessionId = Environment.MachineName + "_" + DateTimeOffset.Now.ToUnixTimeSeconds();
-
-        JsonSerializer json = new JsonSerializer();
-        XMLSerializer xml = new XMLSerializer();
-
-        BasePersistence[] persistenceMethods =
-        {
-            new LocalPersistence(sessionId, json),
-            //new LocalPersistence(sessionId, xml)
-
-            // Para anadir otro metodo de serializacion habria que hacer hacer lo mismo:
-            // crear una instancia del serializador del formato deseado y crear un nuevo
-            // persistidor pasandole dicha instancia
-
-            // Para anadir otro metodo de persistencia
-            //new RemotePersistence(sessionId, json)    --> Si se implementara la persistencia en remoto
-        };
-
-        uint maxQueueSize = 400;
-
-        Tracker = new GameTracker(sessionId, maxQueueSize, persistenceMethods);
+        Tracker = new GameTracker(sessionId, maxQueueSize, SetupPersistenceMethods(sessionId), SetupIgnoredEvents());
         Tracker.Open();
-
-
-        //string evt1 = xml.Serialize(tracker.CreateGenericGameEvent(GameEventType.LEVEL_START));
-        //string evt2 = xml.Serialize(tracker.CreateSongEndEvent(100, 12));
-        //int a = 0;
     }
 
-    private void OnApplicationQuit()
+    private HashSet<BasePersistence> SetupPersistenceMethods(string sessionId)
     {
-        Tracker.Close();
+        // Se guardan todos los metodos de persistencia con el mismo tipo de serialización en
+        // la misma lista (por si hay metodos de serializacion iguales con listas distintas)
+        Dictionary<SerializationTypes, HashSet<PersistenceTypes>> uniqueSettings = new Dictionary<SerializationTypes, HashSet<PersistenceTypes>>(); 
+        foreach (PersistenceSettings setting in persistenceSettings)
+        {
+            if (!uniqueSettings.ContainsKey(setting.serialization))
+            {
+                uniqueSettings.Add(setting.serialization, new HashSet<PersistenceTypes>());
+            }
+
+            foreach (PersistenceTypes persistence in setting.persistence)
+            {
+                uniqueSettings[setting.serialization].Add(persistence);
+            }
+        }
+        
+        // Se crean los metodos de persistencia a partir de la configuracion
+        HashSet<BasePersistence> persistenceMethods = new HashSet<BasePersistence>();
+        foreach (var setting in uniqueSettings)
+        {
+            // Se crea el metodo de serializacion una unica vez para poder reutilizarlo
+            ISerializer serializer = null;
+            switch (setting.Key)
+            {
+                case SerializationTypes.JSON: serializer = new JsonSerializer(); break;
+                case SerializationTypes.XML: serializer = new XMLSerializer(); break;
+
+                // Para anadir soporte para nuevos metodos de serializacion:
+                //case SerializationTypes.BINARY: serializer = new BinarySerializer(); break;
+                //case SerializationTypes.CSV: serializer = new CSVSerializer(); break;
+            }
+            
+            // Se recorren todos los metodos de persistencia asociados al metodo de
+            // serializacion y se crea el persistor correspondiente con el formato indicado
+            foreach (PersistenceTypes persistence in setting.Value)
+            {
+                switch (persistence)
+                {
+                    case PersistenceTypes.LOCAL: 
+                        persistenceMethods.Add(new LocalPersistence(sessionId, serializer)); 
+                        break;
+
+                    // Para anadir soporte para nuevos metodos de persistencia:
+                    //case PersistenceTypes.REMOTE:
+                    //    persistenceMethods.Add(new RemotePersistence(sessionId, serializer));
+                    //    break;
+                }
+            }
+        }
+
+        return persistenceMethods;
     }
+
+    private HashSet<int> SetupIgnoredEvents()
+    {
+        HashSet<int> ignoredEvents = new HashSet<int>();
+
+        // Se guardan todos los eventos a ignorar en un set para ignorar repeticiones
+        foreach (AllEventTypes type in eventsToIgnore)
+        {
+            ignoredEvents.Add((int)type);
+        }
+
+        // Si hay tantos eventos a ignorar como eventos en total (sin incluir el de ignorar todos), se ignoran todos los eventos
+        if (ignoredEvents.Count >= Enum.GetNames(typeof(AllEventTypes)).Length - 1)
+        {
+            ignoredEvents.Add((int)AllEventTypes.IGNORE_ALL);
+        }
+
+        return ignoredEvents;
+    }
+
 
     public void SendEvent(ITrackerEvent evt)
     {

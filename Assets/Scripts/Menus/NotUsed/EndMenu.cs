@@ -7,9 +7,7 @@ public class EndMenu : MonoBehaviour
 {
     public void toMainMenu()
     {
-        Debug.Log("AAAAAAAAA");
         SceneManager.LoadScene("Main Menu");
-
     }
 
     public void quitGame()

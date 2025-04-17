@@ -88,7 +88,7 @@ public class MapManager : MonoBehaviour
                     // TRACKER EVENT Spawn de obstáculo
                     if (trackerComp != null && trackerComp.Tracker != null)
                     {
-                        trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(obstacles[j].gameobject.name, i, ObstacleEvent.ObstacleAction.SPAWN));
+                        trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(obstacles[j].gameobject.name, i, GameTracker.ObstacleAction.SPAWN));
                     }
 
                     if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !first)

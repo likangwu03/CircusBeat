@@ -2,6 +2,7 @@
 
 public enum GameEventType
 {
+    NULL = TrackerEventType.NULL,
     LEVEL_START = TrackerEventType.TRACKER_EVENT_LAST,
     SONG_START,
     SONG_END,
@@ -9,7 +10,9 @@ public enum GameEventType
     LEVEL_END,
     LEVEL_QUIT,
     PHASE_CHANGE,
-    OBSTACLE_ACTION,
+    OBSTACLE_SPAWN,
+    OBSTACLE_COLLISION,
+    OBSTACLE_DODGE,
     RECOVER_HEALTH,
     PLAYER_MOVEMENT
 };
@@ -18,7 +21,7 @@ public enum GameEventType
 public class GameEvent : TrackerEvent
 {
     public GameEvent() : base() { }
-    public GameEvent(string session, GameEventType type, ref ulong counter) : base(session, TrackerEventType.NONE, ref counter)
+    public GameEvent(string session, GameEventType type, ref ulong counter) : base(session, TrackerEventType.NULL, ref counter)
     {
         eventType = (int)type;
         eventName = type.ToString();
@@ -70,18 +73,15 @@ public class PhaseChangeEvent : GameEvent
 [Serializable]
 public class ObstacleEvent : GameEvent
 {
-    public enum ObstacleAction { NONE, SPAWN, EVASION, COLLISION };
-
     public string obstacle = " ";
     public string action = " ";
     public int track = 0;
 
     public ObstacleEvent() : base() { }
-    public ObstacleEvent(string session, GameEventType type, ref ulong counter, string obs, int tr, ObstacleAction act) : base(session, type, ref counter)
+    public ObstacleEvent(string session, GameEventType type, ref ulong counter, string obs, int tr) : base(session, type, ref counter)
     {
         obstacle = obs;
         track = tr;
-        action = act.ToString();
     }
 }
 
