@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static MovementEvent;
 
@@ -12,7 +10,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [SerializeField]
     private float jumpForce = 3.0f;
-    
+
     private PlayerAnimations pAnimations;
     private Rigidbody rigid;
 
@@ -24,9 +22,11 @@ public class PlayerMovementController : MonoBehaviour
 
     private int lane = 2;
 
-    public int Lane {
+    public int Lane
+    {
         get => lane;
-        private set {
+        private set
+        {
             lane = value;
             trans.position = new Vector3(positions[lane], trans.position.y, trans.position.z);
             highlight.position = new Vector3(positions[lane], highlight.position.y, highlight.position.z);
@@ -35,42 +35,65 @@ public class PlayerMovementController : MonoBehaviour
 
     public bool InGround { get; private set; } = true;
 
-    void Start() {
+    TrackerComponent trackerComp;
+
+
+    void Start()
+    {
         pAnimations = gameObject.GetComponent<PlayerAnimations>();
         trans = transform;
         rigid = GetComponent<Rigidbody>();
         trigger.accionEntrar = () => { InGround = true; };
+
+        trackerComp = TrackerComponent.Instance;
     }
 
-    void Update() {
-        if (Time.timeScale > 0.0f) {
-            if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-                if(InGround) {
+    void Update()
+    {
+        if (Time.timeScale > 0.0f)
+        {
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (InGround)
+                {
                     InGround = false;
                     rigid.AddForce(new Vector2(0, jumpForce));
                     pAnimations.jump();
 
                     //TRACKER EVENT Movimiento
-                    TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateMovementEvent(MovementType.UP));
-
+                    if (trackerComp != null && trackerComp.Tracker != null)
+                    {
+                        trackerComp.SendEvent(trackerComp.Tracker.CreateMovementEvent(MovementType.UP));
+                    }
 
                 }
             }
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-                if (Lane < 4) {
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (Lane < 4)
+                {
                     pAnimations.dashDr();
                     Lane++;
 
                     //TRACKER EVENT Movimiento
-                    TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateMovementEvent(MovementType.RIGHT));
+                    if (trackerComp != null && trackerComp.Tracker != null)
+                    {
+                        trackerComp.SendEvent(trackerComp.Tracker.CreateMovementEvent(MovementType.RIGHT));
+                    }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-                if (Lane > 0) {
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (Lane > 0)
+                {
                     pAnimations.dashIz();
                     Lane--;
+
                     //TRACKER EVENT Movimiento
-                    TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateMovementEvent(MovementType.LEFT));
+                    if (trackerComp != null && trackerComp.Tracker != null)
+                    {
+                        trackerComp.SendEvent(trackerComp.Tracker.CreateMovementEvent(MovementType.LEFT));
+                    }
                 }
             }
         }

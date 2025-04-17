@@ -7,9 +7,8 @@ public class TrackerComponent : MonoBehaviour
 {
     public static TrackerComponent Instance = null;
 
-    GameTracker tracker;
+    public GameTracker Tracker { get; private set; }
 
-    public GameTracker Tracker { get => tracker; set => tracker = value; }
 
     private void Awake()
     {
@@ -49,8 +48,8 @@ public class TrackerComponent : MonoBehaviour
 
         uint maxQueueSize = 400;
 
-        tracker = new GameTracker(sessionId, maxQueueSize, persistenceMethods);
-        tracker.Open();
+        Tracker = new GameTracker(sessionId, maxQueueSize, persistenceMethods);
+        Tracker.Open();
 
 
         //string evt1 = xml.Serialize(tracker.CreateGenericGameEvent(GameEventType.LEVEL_START));
@@ -58,26 +57,13 @@ public class TrackerComponent : MonoBehaviour
         //int a = 0;
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnApplicationQuit()
     {
-        tracker.Close();
+        Tracker.Close();
     }
 
     public void SendEvent(TrackerEvent evt)
     {
-        tracker.SendEvent(evt);
+        Tracker.SendEvent(evt);
     }
 }

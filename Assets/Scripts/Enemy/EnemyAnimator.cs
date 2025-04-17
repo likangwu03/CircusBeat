@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
@@ -7,13 +5,23 @@ public class EnemyAnimator : MonoBehaviour
     #region references
     [SerializeField]
     private Animator pAnimator;
+
+    TrackerComponent trackerComp;
     #endregion
 
     #region methods
+    private void Start()
+    {
+        trackerComp = TrackerComponent.Instance;
+    }
+
     public void at_B()
     {
-        //TRACKER EVENT  fase 1
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreatePhaseChangeEvent(0));
+        // TRACKER EVENT fase 1
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(0));
+        }
 
         pAnimator.ResetTrigger("At_R");
         pAnimator.ResetTrigger("Idle");
@@ -22,8 +30,11 @@ public class EnemyAnimator : MonoBehaviour
 
     public void at_R()
     {
-        //TRACKER EVENT  fase 1
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreatePhaseChangeEvent(1));
+        // TRACKER EVENT fase 2
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(1));
+        }
 
         pAnimator.ResetTrigger("At_B");
         pAnimator.ResetTrigger("Idle");

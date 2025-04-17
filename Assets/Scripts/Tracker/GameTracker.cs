@@ -14,7 +14,7 @@ public class GameTracker : Tracker
     {
         return new SongEndEvent(sessionId, GameEventType.SONG_END, ref eventCounter, score, secondsPlayed);
     }
-    public TrackerEvent CreatePlayerDeathEvent(int score,int secondsPlayed)
+    public TrackerEvent CreatePlayerDeathEvent(int score, int secondsPlayed)
     {
         return new PlayerDeathEvent(sessionId, GameEventType.PLAYER_DEATH, ref eventCounter, score, secondsPlayed);
     }
@@ -23,15 +23,14 @@ public class GameTracker : Tracker
         return new PhaseChangeEvent(sessionId, GameEventType.PHASE_CHANGE, ref eventCounter, phase);
     }
 
-    public TrackerEvent CreateObstacleEvent(string obs, int tr,ObstacleAction act)
+    public TrackerEvent CreateObstacleEvent(string obs, int tr, ObstacleAction act)
     {
-        return new ObstacleEvent(sessionId, GameEventType.OBSTACLE_SPAWN, ref eventCounter, obs, tr,act);
+        return new ObstacleEvent(sessionId, GameEventType.OBSTACLE_ACTION, ref eventCounter, obs, tr, act);
     }
 
     public TrackerEvent CreateMovementEvent(MovementEvent.MovementType dir)
     {
-        return new MovementEvent(sessionId, GameEventType.MOVEMENT, ref eventCounter, dir);
+        return new MovementEvent(sessionId, GameEventType.PLAYER_MOVEMENT, ref eventCounter, dir);
     }
-  
 
 }

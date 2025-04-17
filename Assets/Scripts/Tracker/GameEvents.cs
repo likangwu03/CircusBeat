@@ -9,11 +9,9 @@ public enum GameEventType
     LEVEL_END,
     LEVEL_QUIT,
     PHASE_CHANGE,
-    OBSTACLE_SPAWN,
-    OBSTACLE_COLISION,
-    OBSTACLE_DODGE,
+    OBSTACLE_ACTION,
     RECOVER_HEALTH,
-    MOVEMENT
+    PLAYER_MOVEMENT
 };
 
 [Serializable]
@@ -81,16 +79,9 @@ public class ObstacleEvent : GameEvent
     public ObstacleEvent() : base() { }
     public ObstacleEvent(string session, GameEventType type, ref ulong counter, string obs, int tr, ObstacleAction act) : base(session, type, ref counter)
     {
-        obstacle =obs;
+        obstacle = obs;
         track = tr;
-
-        switch (act)
-        {
-            case ObstacleAction.EVASION: action = "Evasion"; break;
-            case ObstacleAction.SPAWN: action = "Spawn"; break;
-            case ObstacleAction.COLLISION: action = "Collision"; break;
-            default: break;
-        }
+        action = act.ToString();
     }
 }
 
@@ -98,11 +89,11 @@ public class ObstacleEvent : GameEvent
 public class MovementEvent : GameEvent
 {
     public enum MovementType { NONE, LEFT, RIGHT, UP };
-    public int direction = (int)MovementType.NONE;
+    public string direction = "";
 
     public MovementEvent() : base() { }
     public MovementEvent(string session, GameEventType type, ref ulong counter, MovementType dir) : base(session, type, ref counter)
     {
-        direction = (int)dir;
+        direction = dir.ToString();
     }
 }

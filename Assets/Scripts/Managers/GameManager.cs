@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,6 +25,9 @@ public class GameManager : MonoBehaviour
     public GameObject player { get; private set; }
     public PlayerLifeComponent pLC { get; private set; }
 
+    TrackerComponent trackerComp;
+
+
     // Primero en llamrase
     private void Awake()
     {
@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        trackerComp = TrackerComponent.Instance;
+
         combo = 0; score = 0;
     }
 
@@ -141,16 +143,16 @@ public class GameManager : MonoBehaviour
         {
             startWin();
 
-           
+
         }
     }
 
     // Tercero en llamarse
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "InGame 2")
+        if (scene.name == "InGame 2")
         {
-          
+
             speaker = SoundManager.Instance.GetComponent<AudioSource>();
             speaker.clip = mainAudio;
             stopMusic();
@@ -179,8 +181,10 @@ public class GameManager : MonoBehaviour
     public void startGame()
     {
         //TRACKER EVENT Inicio de nivel
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_START));
-
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_START));
+        }
         CancelInvoke("winGame");
         SceneManager.LoadScene("InGame 2");
     }
@@ -194,10 +198,16 @@ public class GameManager : MonoBehaviour
         CancelInvoke("winGame");
 
         //TRACKER EVENT evento muerte del jugador / nivel fallido
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreatePlayerDeathEvent(score,(int)musicTime()));
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreatePlayerDeathEvent(score, (int)musicTime()));
+        }
 
         //TRACKER EVENT Fin de nivel
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
+        }
 
         SceneManager.LoadScene("GameOver");
     }
@@ -206,10 +216,16 @@ public class GameManager : MonoBehaviour
         CancelInvoke("winGame");
 
         //TRACKER EVENT Fin de canción/nivel completado
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateSongEndEvent(score, (int)musicTime()));
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateSongEndEvent(score, (int)musicTime()));
+        }
 
         //TRACKER EVENT Fin de nivel
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
+        }
 
         SceneManager.LoadScene("Win");
     }
@@ -264,7 +280,7 @@ public class GameManager : MonoBehaviour
     }
     public void setCombo(int c)
     {
-        if(c == 0)
+        if (c == 0)
         {
             comboAnimator.SetTrigger("Hit");
         }
@@ -280,7 +296,7 @@ public class GameManager : MonoBehaviour
         {
             comboGO.SetActive(false);
         }
-        else if(combo > 0)
+        else if (combo > 0)
         {
             comboGO.SetActive(true);
         }
@@ -288,12 +304,12 @@ public class GameManager : MonoBehaviour
         if (comboAnimator != null)
         {
             comboAnimator.SetInteger("Combo", combo);
-            comboNumberText.text = combo.ToString();            
+            comboNumberText.text = combo.ToString();
         }
     }
-    
+
     public void updateScoreText()
     {
-        scoreNumberText.text = score.ToString();            
+        scoreNumberText.text = score.ToString();
     }
 }

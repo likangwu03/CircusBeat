@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,6 +11,56 @@ public class PauseMenu : MonoBehaviour
     TextMeshProUGUI _countdownText = null;
     bool exiting;
     float counter;
+
+    TrackerComponent trackerComp;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _countdownText = _countdown.GetComponent<TextMeshProUGUI>();
+        enterPause();
+        quitPause();
+
+        trackerComp = TrackerComponent.Instance;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) setPause();
+
+        if (exiting)
+        {
+            _countdownText.text = ((int)counter).ToString();
+            counter -= Time.unscaledDeltaTime;
+
+            if (counter < 1)
+            {
+                _canvas.SetActive(false);
+                _countdown.SetActive(false);
+                exiting = false;
+                Time.timeScale = 1;
+
+                //TRACKER EVENT inicio de canción
+                if (trackerComp != null && trackerComp.Tracker != null)
+                {
+                    trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.SONG_START));
+                }
+
+                GameManager.Instance.playMusic();
+            }
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        //TRACKER EVENT Abandono del nivel
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_QUIT));
+        }
+    }
 
     public void enterPause()
     {
@@ -52,43 +99,11 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         GameManager.Instance.startMenu();
+
         //TRACKER EVENT Abandono del nivel
-        TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_QUIT));
-
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _countdownText = _countdown.GetComponent<TextMeshProUGUI>();
-        enterPause();
-        quitPause();
-    }
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape)) setPause();
-
-        if (exiting)
+        if (trackerComp != null && trackerComp.Tracker != null)
         {
-            _countdownText.text = ((int)counter).ToString();
-            counter -= Time.unscaledDeltaTime;
-
-            if (counter < 1)
-            {
-                _canvas.SetActive(false);
-                _countdown.SetActive(false);
-                exiting = false;
-                Time.timeScale = 1;
-
-                //TRACKER EVENT inicio de canción
-                TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateGenericGameEvent(GameEventType.SONG_START));
-
-                GameManager.Instance.playMusic();
-            }
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_QUIT));
         }
     }
 }

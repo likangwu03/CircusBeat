@@ -1,25 +1,26 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
     private Transform trans;
     bool col = false;
-    private int track=-1;
+    private int track = -1;
 
     [SerializeField]
     private float speed = 3.5f;
     [SerializeField]
     private int score = 1;
 
-
     public Vector3 targetPos { private get; set; }
+
+    TrackerComponent trackerComp;
+
 
     private void Start()
     {
         trans = GetComponent<Transform>();
+
+        trackerComp = TrackerComponent.Instance;
     }
 
     public void SetTrack(int tr) { track = tr; }
@@ -39,8 +40,11 @@ public class Obstacle : MonoBehaviour
             GameManager.Instance.addScore(score);
             GameManager.Instance.addCombo(score);
 
-            //TRACKER EVENT  Evasión de obstáculo
-            TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.EVASION));
+            // TRACKER EVENT Evasión de obstáculo
+            if (trackerComp != null && trackerComp.Tracker != null)
+            {
+                trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.EVASION));
+            }
 
             Destroy(gameObject);
         }
@@ -55,8 +59,11 @@ public class Obstacle : MonoBehaviour
             GameManager.Instance.setCombo(0);
             GameManager.Instance.pLC.damage();
 
-            //TRACKER EVENT  Evasión de obstáculo
-            TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.COLLISION));
+            // TRACKER EVENT Evasión de obstáculo
+            if (trackerComp != null && trackerComp.Tracker != null)
+            {
+                trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(gameObject.name, track, ObstacleEvent.ObstacleAction.COLLISION));
+            }
 
             Destroy(gameObject);
         }

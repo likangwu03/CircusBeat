@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ObstacleEvent;
 
 // class --> referencia
 // struct --> instancia
@@ -55,6 +52,9 @@ public class MapManager : MonoBehaviour
     private EnemyAnimator eAnimations;
     private bool first = false;
 
+    TrackerComponent trackerComp;
+
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -67,6 +67,9 @@ public class MapManager : MonoBehaviour
             columns[i].init();
             garbage[i] = new List<int>();
         }
+
+        trackerComp = TrackerComponent.Instance;
+
     }
 
     // Update is called once per frame
@@ -82,8 +85,11 @@ public class MapManager : MonoBehaviour
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
 
-                    //TRACKER EVENT  Spawn de obstáculo
-                    TrackerComponent.Instance.SendEvent(TrackerComponent.Instance.Tracker.CreateObstacleEvent(obstacles[j].gameobject.name, i, ObstacleEvent.ObstacleAction.SPAWN));
+                    // TRACKER EVENT Spawn de obstáculo
+                    if (trackerComp != null && trackerComp.Tracker != null)
+                    {
+                        trackerComp.SendEvent(trackerComp.Tracker.CreateObstacleEvent(obstacles[j].gameobject.name, i, ObstacleEvent.ObstacleAction.SPAWN));
+                    }
 
                     if ((obstacles[j].gameobject.name == "BowlingPin" || obstacles[j].gameobject.name == "Ball" || obstacles[j].gameobject.name == "Bunny") && !first)
                     {
