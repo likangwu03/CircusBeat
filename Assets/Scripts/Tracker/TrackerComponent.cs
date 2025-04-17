@@ -62,8 +62,9 @@ public class TrackerComponent : MonoBehaviour
         Tracker.Close();
     }
 
-    public void SendEvent(TrackerEvent evt)
+    public void SendEvent(ITrackerEvent evt)
     {
-        Tracker.SendEvent(evt);
+        evt.Send(Tracker);
+        //Tracker.SendEvent(evt);
     }
 }

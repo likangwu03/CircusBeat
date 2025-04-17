@@ -9,9 +9,13 @@ public enum TrackerEventType
     TRACKER_EVENT_LAST      // No se usa; es para saber a partir de que numero empiezan los eventos del juego
 };
 
+public interface ITrackerEvent
+{
+    void Send(Tracker tracker, bool delay = true);
+}
 
 [Serializable]
-public class TrackerEvent
+public class TrackerEvent : ITrackerEvent
 {
     public string sessionId = "";
     public long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
@@ -31,6 +35,11 @@ public class TrackerEvent
         eventId = counter;
 
         counter++;
+    }
+
+    public virtual void Send(Tracker tracker, bool delay = true)
+    {
+        tracker.SendEvent(this, delay);
     }
 }
 
