@@ -47,8 +47,6 @@ public class TrackerEvent : ITrackerEvent
 
 public class Tracker
 {
-    public const int IGNORE_ALL_EVENTS = (int)TrackerEventType.NULL - 1;
-
     protected string sessionId;
 
     protected Queue<TrackerEvent> eventsQueue;
@@ -74,7 +72,7 @@ public class Tracker
     public void Open()
     {
         // Si se van a ignorar todos los eventos, no se hace nada
-        if (ignoredEvents.Contains(IGNORE_ALL_EVENTS))
+        if (ignoredEvents.Contains((int)TrackerEventType.IGNORE_ALL))
         {
             return;
         }
@@ -89,7 +87,7 @@ public class Tracker
     public void Close()
     {
         // Si se van a ignorar todos los eventos, no se hace nada
-        if (ignoredEvents.Contains(IGNORE_ALL_EVENTS))
+        if (ignoredEvents.Contains((int)TrackerEventType.IGNORE_ALL))
         {
             return;
         }
@@ -104,7 +102,7 @@ public class Tracker
     public void SendEvent(TrackerEvent evt, bool delay = true)
     {
         // Si se van a ignorar todos los eventos, no se hace nada
-        if (ignoredEvents.Contains(IGNORE_ALL_EVENTS))
+        if (ignoredEvents.Contains((int)TrackerEventType.IGNORE_ALL))
         {
             return;
         }
