@@ -123,6 +123,19 @@ public class Tracker
         }
     }
 
+    public void SendEvent()
+    {
+        if (eventsQueue.Count > 0)
+        {
+            foreach (BasePersistence method in persistenceMethods)
+            {
+                method.SendEvents(eventsQueue);
+
+            }
+            eventsQueue.Clear();
+        }
+    }
+
     protected TrackerEvent CreateGenericTrackerEvent(TrackerEventType type)
     {
         return new TrackerEvent(sessionId, type, ref eventCounter);

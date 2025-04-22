@@ -14,6 +14,9 @@ public class TrackerComponent : MonoBehaviour
     [SerializeField]
     uint maxQueueSize = 100;
 
+    [SerializeField]
+    float sendTime = 5.0f;
+
     // Configuracion de serializacion y persistencia
     public enum SerializationTypes { JSON, XML, /* BINARY, CSV, ... */ }
     public enum PersistenceTypes { LOCAL, /* REMOTE, ... */}
@@ -85,6 +88,7 @@ public class TrackerComponent : MonoBehaviour
         string sessionId = Environment.MachineName + "_" + DateTimeOffset.Now.ToUnixTimeSeconds();
         Tracker = new GameTracker(sessionId, maxQueueSize, SetupPersistenceMethods(sessionId), SetupIgnoredEvents());
         Tracker.Open();
+        InvokeRepeating(nameof(SendEvent), sendTime, sendTime);
     }
 
     private HashSet<BasePersistence> SetupPersistenceMethods(string sessionId)
@@ -161,10 +165,15 @@ public class TrackerComponent : MonoBehaviour
         return ignoredEvents;
     }
 
-
     public void SendEvent(ITrackerEvent evt)
     {
         evt.Send(Tracker);
         //Tracker.SendEvent(evt);
     }
+
+    public void SendEvent()
+    {
+        Tracker.SendEvent();
+    }
+
 }
