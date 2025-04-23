@@ -84,6 +84,7 @@ public class MapManager : MonoBehaviour
                 if (obstacles[j].timeInSeconds < GameManager.Instance.musicTime())
                 {
                     GameObject obstacleObject = Instantiate(obstacles[j].gameobject, col.up, Quaternion.identity);
+                    obstacleObject.name = obstacles[j].gameobject.name;
 
                     // TRACKER EVENT Spawn de obstáculo
                     if (trackerComp != null && trackerComp.Tracker != null)
