@@ -71,6 +71,12 @@ public class MapManager : MonoBehaviour
 
         trackerComp = TrackerComponent.Instance;
 
+        currPhase = 0;
+        // TRACKER EVENT fase 0
+        if (trackerComp != null && trackerComp.Tracker != null)
+        {
+            trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(currPhase));
+        }
     }
 
     // Update is called once per frame
@@ -114,10 +120,10 @@ public class MapManager : MonoBehaviour
                     {
                         eAnimations.e_Idle();
 
-                        if (currPhase < 1)
+                        if (currPhase < 3)
                         {
                             currPhase++;
-                            // TRACKER EVENT fase 1
+                            // TRACKER EVENT fase 3
                             if (trackerComp != null && trackerComp.Tracker != null)
                             {
                                 trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(currPhase));
@@ -141,10 +147,11 @@ public class MapManager : MonoBehaviour
                     else if (GameManager.Instance.musicTime() > 39.45)
                     {
                         eAnimations.at_R();
-                        if (currPhase < 3)
+
+                        if (currPhase < 1)
                         {
                             currPhase++;
-                            // TRACKER EVENT fase 3
+                            // TRACKER EVENT fase 1
                             if (trackerComp != null && trackerComp.Tracker != null)
                             {
                                 trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(currPhase));
