@@ -58,6 +58,7 @@ public class PauseMenu : MonoBehaviour
         //TRACKER EVENT Abandono del nivel
         if (trackerComp != null && trackerComp.Tracker != null)
         {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
             trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_QUIT));
         }
     }
@@ -103,6 +104,7 @@ public class PauseMenu : MonoBehaviour
         //TRACKER EVENT Abandono del nivel
         if (trackerComp != null && trackerComp.Tracker != null)
         {
+            trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_END));
             trackerComp.SendEvent(trackerComp.Tracker.CreateGenericGameEvent(GameEventType.LEVEL_QUIT));
         }
     }

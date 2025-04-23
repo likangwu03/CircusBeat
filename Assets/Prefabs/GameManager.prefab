@@ -61,9 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   maxQueueSize: 100
+  sendTime: 5
   persistenceSettings:
   - serialization: 0
-    persistence: 00000000
-  - serialization: 1
     persistence: 00000000
   eventsToIgnore: 

@@ -53,6 +53,7 @@ public class MapManager : MonoBehaviour
     private bool first = false;
 
     TrackerComponent trackerComp;
+    int currPhase;
 
 
     // Start is called before the first frame update
@@ -112,14 +113,43 @@ public class MapManager : MonoBehaviour
                     if (GameManager.Instance.musicTime() > 80)
                     {
                         eAnimations.e_Idle();
+
+                        if (currPhase < 1)
+                        {
+                            currPhase++;
+                            // TRACKER EVENT fase 1
+                            if (trackerComp != null && trackerComp.Tracker != null)
+                            {
+                                trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(currPhase));
+                            }
+                        }
                     }
                     else if (GameManager.Instance.musicTime() > 63)
                     {
                         eAnimations.at_B();
+
+                        if (currPhase < 2)
+                        {
+                            currPhase++;
+                            // TRACKER EVENT fase 2
+                            if (trackerComp != null && trackerComp.Tracker != null)
+                            {
+                                trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(currPhase));
+                            }
+                        }
                     }
                     else if (GameManager.Instance.musicTime() > 39.45)
                     {
                         eAnimations.at_R();
+                        if (currPhase < 3)
+                        {
+                            currPhase++;
+                            // TRACKER EVENT fase 3
+                            if (trackerComp != null && trackerComp.Tracker != null)
+                            {
+                                trackerComp.SendEvent(trackerComp.Tracker.CreatePhaseChangeEvent(currPhase));
+                            }
+                        }
                     }
                 }
                 else
