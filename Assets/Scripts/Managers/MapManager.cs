@@ -99,6 +99,7 @@ public class MapManager : MonoBehaviour
                     Obstacle obstacleComp = obstacleObject.GetComponent<Obstacle>();
                     if (obstacleComp != null)
                     {
+                        obstacleComp.SetTrack(i);
                         obstacleComp.targetPos = col.down;
                         garbage[i].Add(j);
                     }
