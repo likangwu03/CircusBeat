@@ -74,7 +74,6 @@ public class PhaseChangeEvent : GameEvent
 public class ObstacleEvent : GameEvent
 {
     public string obstacle = " ";
-    public string action = " ";
     public int track = 0;
 
     public ObstacleEvent() : base() { }
